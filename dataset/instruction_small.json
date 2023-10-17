@@ -1,0 +1,812 @@
+{
+    "I am tired and need a place to rest.": [
+        "ArmChair",
+        "Chair",
+        "Bed",
+        "Sofa",
+        "Stool"
+    ],
+    "I like to listen to music.": [
+        "CD",
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I need something to store my music.": [
+        "CD",
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I need some entertainment.": [
+        "CD",
+        "Television",
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I need a tool to store and trade digital information.": [
+        "CD",
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I would like to communicate with someone.": [
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I need something to keep in touch with my family and friends.": [
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I need a workspace.": [
+        "CounterTop",
+        "Desk",
+        "CounterTop"
+    ],
+    "I need a surface to place my items on.": [
+        "CounterTop",
+        "Desk",
+        "CoffeeTable",
+        "SideTable"
+    ],
+    "I need a surface for my kitchen preparation.": [
+        "CounterTop",
+        "DiningTable"
+    ],
+    "I need a place to keep my food cold.": [
+        "Fridge"
+    ],
+    "I need something to keep my food fresh.": [
+        "Fridge",
+        "AluminumFoil"
+    ],
+    "I need something to store my food and keep it cold.": [
+        "Fridge"
+    ],
+    "I need something to boil water in.": [
+        "Kettle",
+        "Microwave"
+    ],
+    "I am thirsty and need something to drink.": [
+        "Kettle",
+        "Bottle",
+        "Apple",
+        "Faucet"
+    ],
+    "I want something to eat or drink.": [
+        "Kettle",
+        "Toaster",
+        "CoffeeMachine",
+        "Apple",
+        "Egg",
+        "Bread",
+        "Tomato",
+        "Potato"
+    ],
+    "I want something that can hold drinks.": [
+        "Kettle",
+        "Bottle",
+        "Cup",
+        "Mug",
+        "WineBottle"
+    ],
+    "I require a way to make hot water.": [
+        "CoffeeMachine",
+        "Kettle"
+    ],
+    "I want to make hot beverages.": [
+        "CoffeeMachine",
+        "Kettle"
+    ],
+    "I need something to control light.": [
+        "RemoteControl",
+        "LightSwitch",
+        "FloorLamp"
+    ],
+    "I want to be able to see in the dark.": [
+        "LightSwitch",
+        "Candle",
+        "DeskLamp",
+        "FloorLamp"
+    ],
+    "I need to heat up my food.": [
+        "Toaster",
+        "Microwave"
+    ],
+    "I want to control the appliance or television.": [
+        "RemoteControl"
+    ],
+    "I need a way to switch a device on/off from a distance.": [
+        "RemoteControl"
+    ],
+    "I want something to watch or use for entertainment.": [
+        "RemoteControl",
+        "Laptop",
+        "Television",
+        "Desktop",
+        "CellPhone"
+    ],
+    "I need to access certain devices.": [
+        "RemoteControl",
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I want to store my valuables.": [
+        "Safe"
+    ],
+    "I want a secure place to store my valuables.": [
+        "Safe"
+    ],
+    "I want something to cook bread.": [
+        "Toaster"
+    ],
+    "I need something to cook toast.": [
+        "Toaster"
+    ],
+    "I need a kitchen appliance.": [
+        "Toaster",
+        "Spoon",
+        "Microwave",
+        "SaltShaker"
+    ],
+    "I need something to use for going to the bathroom.": [
+        "Toilet",
+        "ToiletPaper"
+    ],
+    "I need a place to relieve myself.": [
+        "Toilet"
+    ],
+    "I need a place to hold my television.": [
+        "TVStand",
+        "SideTable",
+        "CounterTop"
+    ],
+    "I want to put my Television on a stable surface.": [
+        "TVStand",
+        "SideTable",
+        "CounterTop"
+    ],
+    "I need a way to keep my home clean.": [
+        "VacuumCleaner",
+        "DishSponge"
+    ],
+    "I need something to clean up the floors with.": [
+        "VacuumCleaner",
+        "ScrubBrush"
+    ],
+    "I need something to wash clothes.": [
+        "WashingMachine"
+    ],
+    "I want to wake up on time.": [
+        "AlarmClock",
+        "CellPhone"
+    ],
+    "I would like to know what time it is.": [
+        "AlarmClock",
+        "CellPhone",
+        "Laptop",
+        "Desktop",
+        "Watch"
+    ],
+    "I need something to drink.": [
+        "Bottle",
+        "Cup",
+        "WineBottle",
+        "Kettle",
+        "Faucet",
+        "CoffeeMachine"
+    ],
+    "I need a container to store liquids.": [
+        "Bottle",
+        "Mug",
+        "Cup",
+        "WineBottle",
+        "Kettle"
+    ],
+    "I'm thirsty and need a drink.": [
+        "Bottle",
+        "Cup",
+        "WineBottle",
+        "Kettle",
+        "Faucet",
+        "CoffeeMachine"
+    ],
+    "I want something to store and transport liquids.": [
+        "Bottle",
+        "Cup",
+        "Mug",
+        "WineBottle",
+        "Kettle"
+    ],
+    "I am thirsty.": [
+        "Bottle",
+        "Cup",
+        "Mug",
+        "WineBottle",
+        "Kettle",
+        "Faucet",
+        "CoffeeMachine"
+    ],
+    "I am hungry, please give me something to eat with.": [
+        "Apple",
+        "Egg",
+        "Potato",
+        "Tomato",
+        "Lettuce",
+        "Bread"
+    ],
+    "I need an instrument to eat with.": [
+        "Spoon",
+        "Fork",
+        "Knife",
+        "Ladle",
+        "Plate",
+        "ButterKnife"
+    ],
+    "I need a tool to eat food with.": [
+        "Spoon",
+        "Fork",
+        "Ladle",
+        "Knife",
+        "Plate",
+        "ButterKnife"
+    ],
+    "I need some utensils to eat with.": [
+        "Spoon",
+        "Fork",
+        "Knife",
+        "ButterKnife",
+        "Ladle",
+        "Spatula"
+    ],
+    "I need a utensil for cutting.": [
+        "Knife"
+    ],
+    "I need it to prepare food.": [
+        "Knife"
+    ],
+    "I need somewhere to put dirty clothes.": [
+        "LaundryHamper",
+        "WashingMachine",
+        "Box"
+    ],
+    "I want somewhere to store clothes that need washing.": [
+        "LaundryHamper",
+        "WashingMachine",
+        "Box"
+    ],
+    "I need hygiene products.": [
+        "ToiletPaper",
+        "ToiletPaperHanger",
+        "HandTowel",
+        "Towel"
+    ],
+    "I wish to have something to wipe myself with.": [
+        "HandTowel",
+        "Towel",
+        "ToiletPaper",
+        "PaperTowelRoll"
+    ],
+    "I need to clean myself.": [
+        "HandTowel",
+        "Towel",
+        "ToiletPaper",
+        "PaperTowelRoll",
+        "SoapBar",
+        "SoapBottle"
+    ],
+    "I need a product to clean with.": [
+        "HandTowel",
+        "Towel",
+        "ToiletPaper",
+        "PaperTowelRoll",
+        "SoapBar",
+        "SoapBottle"
+    ],
+    "I want to store my toilet paper.": [
+        "ToiletPaperHanger",
+        "Box",
+        "TissueBox"
+    ],
+    "I need something to cover my feet.": [
+        "Boots"
+    ],
+    "I need shoes for better traction, protection and comfort.": [
+        "Boots"
+    ],
+    "I want to pay for something.": [
+        "CreditCard"
+    ],
+    "I need something to make payments.": [
+        "CreditCard"
+    ],
+    "I want to wipe my hands.": [
+        "HandTowel",
+        "Towel",
+        "PaperTowelRoll",
+        "ToiletPaper"
+    ],
+    "I want something to dry my hands with.": [
+        "HandTowel",
+        "Towel",
+        "PaperTowelRoll",
+        "ToiletPaper"
+    ],
+    "I need to clean something.": [
+        "HandTowel",
+        "Towel",
+        "PaperTowelRoll",
+        "ToiletPaper",
+        "DishSponge"
+    ],
+    "I need a device to access the internet.": [
+        "Laptop",
+        "Desktop",
+        "CellPhone"
+    ],
+    "I need a computer to work on.": [
+        "Laptop",
+        "Desktop"
+    ],
+    "I want to keep food fresh.": [
+        "AluminumFoil",
+        "Fridge"
+    ],
+    "I need to wrap up the food to keep it fresh.": [
+        "AluminumFoil"
+    ],
+    "I want to play a sport.": [
+        "BaseballBat",
+        "BasketBall",
+        "TennisRacket"
+    ],
+    "I need a weapon for self-defense.": [
+        "BaseballBat",
+        "Knife",
+        "Pan"
+    ],
+    "I need a tool for playing baseball.": [
+        "BaseballBat"
+    ],
+    "I want to defend myself.": [
+        "BaseballBat",
+        "Knife",
+        "Pan"
+    ],
+    "I need an object to play with.": [
+        "BaseballBat",
+        "BasketBall",
+        "TennisRacket",
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I want to get a good night's sleep.": [
+        "Bed",
+        "ArmChair",
+        "Sofa"
+    ],
+    "I want something to keep light out of the room.": [
+        "Blinds"
+    ],
+    "I want a covering for my windows.": [
+        "Blinds"
+    ],
+    "I am looking for something interesting to read.": [
+        "Book",
+        "Newspaper"
+    ],
+    "I wish to expand my knowledge.": [
+        "Book",
+        "CellPhone",
+        "Newspaper",
+        "Television",
+        "Laptop",
+        "Desktop"
+    ],
+    "I need a dish to serve food.": [
+        "Bowl",
+        "Plate"
+    ],
+    "I need a place to put my food.": [
+        "Bowl",
+        "Plate"
+    ],
+    "I need something to eat from.": [
+        "Bowl",
+        "DiningTable",
+        "Plate"
+    ],
+    "I want something to store items in.": [
+        "Box",
+        "ShelvingUnit"
+    ],
+    "I wish to keep things organized.": [
+        "Box",
+        "ShelvingUnit"
+    ],
+    "I want to make myself a sandwich.": [
+        "Bread",
+        "ButterKnife"
+    ],
+    "I am so hungry.": [
+        "Bread",
+        "Egg",
+        "Lettuce",
+        "Apple",
+        "Potato",
+        "Tomato"
+    ],
+    "I need something to nourish me.": [
+        "Bread",
+        "Egg",
+        "Lettuce",
+        "Apple",
+        "Potato",
+        "Tomato"
+    ],
+    "I want something to eat for breakfast.": [
+        "Bread",
+        "Egg",
+        "Lettuce",
+        "Apple",
+        "Potato",
+        "Tomato"
+    ],
+    "I need something to spread butter or cut food with.": [
+        "ButterKnife"
+    ],
+    "I need to spread butter on my bread.": [
+        "ButterKnife"
+    ],
+    "I need something to light up a room.": [
+        "Candle",
+        "FloorLamp",
+        "DeskLamp",
+        "LightSwitch"
+    ],
+    "I need some light in the dark.": [
+        "Candle",
+        "FloorLamp",
+        "DeskLamp",
+        "LightSwitch"
+    ],
+    "I want to create an ambiance.": [
+        "Candle"
+    ],
+    "I want to decorate my room.": [
+        "Candle",
+        "HousePlant",
+        "Painting",
+        "RoomDecor",
+        "Statue",
+        "TableTopDecor"
+    ],
+    "I need something to transport items from one place to another.": [
+        "Cart"
+    ],
+    "I need something for carrying.": [
+        "Cart"
+    ],
+    "I need something to help me transport goods.": [
+        "Cart",
+        "Box"
+    ],
+    "I need something to quickly dry my laundry.": [
+        "ClothesDryer"
+    ],
+    "I need a way to dry and freshen my clothes.": [
+        "ClothesDryer"
+    ],
+    "I need something to make coffee.": [
+        "CoffeeMachine"
+    ],
+    "I need something to put things on.": [
+        "CoffeeTable",
+        "SideTable",
+        "CounterTop",
+        "Desk",
+        "Dresser"
+    ],
+    "I need a place to put things in my living room.": [
+        "CoffeeTable",
+        "SideTable",
+        "CounterTop",
+        "Desk"
+    ],
+    "I want a source of light so I can read at night.": [
+        "DeskLamp",
+        "FloorLamp",
+        "Candle"
+    ],
+    "I want somewhere to eat.": [
+        "DiningTable",
+        "CoffeeTable"
+    ],
+    "I want a table to eat at.": [
+        "DiningTable",
+        "CoffeeTable"
+    ],
+    "I want something to clean my dishes.": [
+        "DishSponge",
+        "Towel"
+    ],
+    "I need something to clean up the kitchen.": [
+        "DishSponge",
+        "Towel",
+        "ScrubBrush"
+    ],
+    "I need a place for my dog to sleep.": [
+        "DogBed"
+    ],
+    "I need something to provide comfort to my dog.": [
+        "DogBed"
+    ],
+    "I need some equipment for my exercise.": [
+        "Dumbbell",
+        "BasketBall",
+        "BaseballBat",
+        "TennisRacket"
+    ],
+    "I want to exercise and build muscle.": [
+        "Dumbbell"
+    ],
+    "I need something to get water with.": [
+        "Faucet",
+        "ShowerHead"
+    ],
+    "I need something to access running water.": [
+        "Faucet",
+        "ShowerHead"
+    ],
+    "I need something to help me reach higher items.": [
+        "Footstool",
+        "Ottoman",
+        "Stool",
+        "Chair",
+        "ArmChair",
+        "Desk",
+        "CounterTop"
+    ],
+    "I need something to rest my feet.": [
+        "Footstool",
+        "Ottoman",
+        "Stool"
+    ],
+    "I want to be able to reach something that is higher than me.": [
+        "Footstool",
+        "Ottoman",
+        "Stool",
+        "Chair",
+        "ArmChair",
+        "Desk",
+        "CounterTop"
+    ],
+    "I want something to prop my feet up.": [
+        "Footstool",
+        "Ottoman",
+        "Stool"
+    ],
+    "I have some trash I need to dispose of.": [
+        "GarbageBag",
+        "GarbageCan"
+    ],
+    "I need somewhere to dispose off the trash.": [
+        "GarbageBag",
+        "GarbageCan"
+    ],
+    "I need somewhere to store my towel.": [
+        "HandTowelHolder",
+        "TowelHolder"
+    ],
+    "I need something to liven up the room.": [
+        "HousePlant",
+        "Painting",
+        "RoomDecor",
+        "Statue",
+        "TableTopDecor",
+        "Vase"
+    ],
+    "I want to add more life to my room.": [
+        "HousePlant"
+    ],
+    "I want to bring nature into my home.": [
+        "HousePlant"
+    ],
+    "I need something to store and manage my keys.": [
+        "KeyChain"
+    ],
+    "I need something to store my keys.": [
+        "KeyChain",
+        "Safe"
+    ],
+    "I need something to keep my keys together.": [
+        "KeyChain"
+    ],
+    "I need something to scoop soup with.": [
+        "Ladle",
+        "Spoon"
+    ],
+    "I need a tool to scoop up liquid.": [
+        "Ladle",
+        "Spoon"
+    ],
+    "I need something for my salad.": [
+        "Lettuce",
+        "Potato",
+        "Apple",
+        "Tomato"
+    ],
+    "I want something to make a salad with.": [
+        "Lettuce",
+        "Potato",
+        "Apple",
+        "Tomato"
+    ],
+    "I require some vegetables.": [
+        "Lettuce",
+        "Potato"
+    ],
+    "I want to read the news.": [
+        "Newspaper",
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I need something to decorate my walls.": [
+        "Painting"
+    ],
+    "I need something to decorate the walls with.": [
+        "Painting"
+    ],
+    "I need something to cook with.": [
+        "Pan",
+        "Pot",
+        "Microwave"
+    ],
+    "I need something to fry or boil food.": [
+        "Pan",
+        "Pot",
+        "Microwave"
+    ],
+    "I want something to write with.": [
+        "Pen",
+        "Pencil"
+    ],
+    "I need a tool to write with.": [
+        "Pen",
+        "Pencil"
+    ],
+    "I need to take notes.": [
+        "Pen",
+        "Pencil",
+        "CellPhone",
+        "Desktop",
+        "Laptop"
+    ],
+    "I need a tool to draw with.": [
+        "Pen",
+        "Pencil"
+    ],
+    "I need to add flavor to food.": [
+        "PepperShaker",
+        "SaltShaker"
+    ],
+    "I need a way to add flavor to my food.": [
+        "PepperShaker",
+        "SaltShaker"
+    ],
+    "I need to rest my head.": [
+        "Pillow"
+    ],
+    "I need something to put my head on.": [
+        "Pillow"
+    ],
+    "I need something for a comfortable sleep.": [
+        "Pillow",
+        "Bed",
+        "Sofa"
+    ],
+    "I need something to unclog drains.": [
+        "Plunger"
+    ],
+    "I need something to unclog a pipe.": [
+        "Plunger"
+    ],
+    "I need to season my food with.": [
+        "SaltShaker",
+        "PepperShaker"
+    ],
+    "I want something to scrub with.": [
+        "ScrubBrush"
+    ],
+    "I need something to use while scrubbing.": [
+        "ScrubBrush"
+    ],
+    "I need somewhere to store my books.": [
+        "ShelvingUnit",
+        "Box"
+    ],
+    "I need something to keep the water in the shower.": [
+        "ShowerCurtain"
+    ],
+    "I need something to separate a shower area.": [
+        "ShowerCurtain"
+    ],
+    "I need a basin to clean and wash things in.": [
+        "Sink"
+    ],
+    "I need somewhere to wash my hands.": [
+        "Sink"
+    ],
+    "I wish to have some soap.": [
+        "SoapBar",
+        "SoapBottle"
+    ],
+    "I need something to store my liquid soap in.": [
+        "SoapBottle"
+    ],
+    "I need something to hold liquid soap.": [
+        "SoapBottle"
+    ],
+    "I need an object to flip food with.": [
+        "Spatula"
+    ],
+    "I need something to turn or mix food.": [
+        "Spatula"
+    ],
+    "I want to add some artwork to my home.": [
+        "Painting",
+        "Statue",
+        "Vase"
+    ],
+    "I need something to hug or cuddle.": [
+        "TeddyBear",
+        "Pillow"
+    ],
+    "I need something to cuddle with.": [
+        "TeddyBear",
+        "Pillow"
+    ],
+    "I need a toy.": [
+        "TeddyBear"
+    ],
+    "I want something to watch shows or movies.": [
+        "Television",
+        "Desktop",
+        "Laptop"
+    ],
+    "I want a way to watch shows.": [
+        "Television",
+        "Desktop",
+        "Laptop"
+    ],
+    "I need a tool to play tennis.": [
+        "TennisRacket"
+    ],
+    "I need something to play a game of tennis with.": [
+        "TennisRacket"
+    ],
+    "I need something to store tissues.": [
+        "TissueBox"
+    ],
+    "I need something to store my tissues in.": [
+        "TissueBox"
+    ],
+    "I want something to water plants.": [
+        "WateringCan"
+    ],
+    "I need something to view the outside and to let in sunlight.": [
+        "Window"
+    ],
+    "I need something to store wine in.": [
+        "WineBottle"
+    ],
+    "I need something to contain alcohol.": [
+        "WineBottle"
+    ]
+}

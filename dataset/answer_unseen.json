@@ -1,0 +1,954 @@
+{
+    "LightSwitch": [
+        "I just want to turn on the lights.",
+        "I need something to light a room up.",
+        "I want something to turn lights on and off.",
+        "I want to turn on the lights.",
+        "I need to turn on or off the light.",
+        "I need to turn on and off the lights.",
+        "I need to make my room brighter.",
+        "I want something to light up a room.",
+        "I need something to turn the lights on or off."
+    ],
+    "ClothesDryer": [
+        "I need something to dry my clothes.",
+        "I want something to dry clothes with.",
+        "I want to make my laundry dry."
+    ],
+    "Painting": [
+        "I need something to decorate my walls with.",
+        "I need to decorate my room.",
+        "I wish to decorate my living space.",
+        "I need it to decorate my room.",
+        "I need it for decoration.",
+        "I want something to make the room look nicer.",
+        "I want something to decorate my living room with.",
+        "I need something to decorate a room with.",
+        "I want something to decorate the house."
+    ],
+    "Sofa": [
+        "I need somewhere to sit down.",
+        "I want a comfortable spot to relax in.",
+        "I require comfortable seating.",
+        "I need to take a seat.",
+        "I want something for me to sit on.",
+        "I want to sit down and relax.",
+        "I need comfortable furniture to sit on."
+    ],
+    "ArmChair": [
+        "I need somewhere to sit down.",
+        "I want a comfortable spot to relax in.",
+        "I need a seat and/or a step to reach higher places.",
+        "I need something to stand on.",
+        "I require comfortable seating.",
+        "I need to take a seat.",
+        "I want something for me to sit on.",
+        "I want to sit down and relax.",
+        "I need comfortable furniture to sit on."
+    ],
+    "Chair": [
+        "I need somewhere to sit down.",
+        "I need a seat and/or a step to reach higher places.",
+        "I need something to stand on.",
+        "I require comfortable seating.",
+        "I need to take a seat.",
+        "I want something for me to sit on.",
+        "I need a place to work.",
+        "I need comfortable furniture to sit on."
+    ],
+    "Ottoman": [
+        "I need somewhere to sit down.",
+        "I need a seat and/or a step to reach higher places.",
+        "I need something to stand on.",
+        "I need somewhere to put my feet up.",
+        "I need a furniture piece to kick my feet up.",
+        "I need a place to put my feet.",
+        "I need comfortable furniture to sit on."
+    ],
+    "Stool": [
+        "I need somewhere to sit down.",
+        "I need a seat and/or a step to reach higher places.",
+        "I need something to stand on.",
+        "I need somewhere to put my feet up.",
+        "I need a furniture piece to kick my feet up.",
+        "I require comfortable seating.",
+        "I need to take a seat.",
+        "I want something for me to sit on.",
+        "I need a place to put my feet.",
+        "I need comfortable furniture to sit on."
+    ],
+    "Mug": [
+        "I want a cup to drink from.",
+        "I need something to store liquid.",
+        "I need a drinking cup.",
+        "I need something to store my liquids.",
+        "I want to drink water or coffee.",
+        "I am thirsty and need something to drink from.",
+        "I need a container for my drinks."
+    ],
+    "Cup": [
+        "I want a cup to drink from.",
+        "I need something to store liquid.",
+        "I need a drinking cup.",
+        "I need something to store my liquids.",
+        "I want to drink water or coffee.",
+        "I am thirsty and need something to drink from.",
+        "I need a container for my drinks."
+    ],
+    "HousePlant": [
+        "I need to decorate my room.",
+        "I wish to decorate my living space.",
+        "I need it to decorate my room.",
+        "I need it for decoration.",
+        "I want something to make the room look nicer.",
+        "I want something to decorate my living room with.",
+        "I need something to decorate a room with.",
+        "I want something to decorate the house."
+    ],
+    "RoomDecor": [
+        "I need to decorate my room.",
+        "I wish to decorate my living space.",
+        "I need it to decorate my room.",
+        "I want something to make the room look nicer.",
+        "I want something to decorate my living room with.",
+        "I need something to decorate a room with.",
+        "I want something to decorate the house."
+    ],
+    "Statue": [
+        "I need to decorate my room.",
+        "I wish to decorate my living space.",
+        "I need it to decorate my room.",
+        "I need it for decoration.",
+        "I want something to make the room look nicer.",
+        "I want something to decorate my living room with.",
+        "I need something to decorate a room with.",
+        "I want something to decorate the house."
+    ],
+    "TableTopDecor": [
+        "I need to decorate my room.",
+        "I wish to decorate my living space.",
+        "I want to decorate my table.",
+        "I need it to decorate my room.",
+        "I need something to beautify my table.",
+        "I need something to decorate the table with.",
+        "I need it for decoration.",
+        "I want something to make the room look nicer.",
+        "I want something to decorate my living room with.",
+        "I need something to decorate a room with.",
+        "I want something to decorate the house."
+    ],
+    "Vase": [
+        "I need to decorate my room.",
+        "I need something to hold my flowers.",
+        "I wish to decorate my living space.",
+        "I need it to decorate my room.",
+        "I need it for decoration.",
+        "I want something to make the room look nicer.",
+        "I want something to decorate my living room with.",
+        "I need something to decorate a room with.",
+        "I want something to decorate the house."
+    ],
+    "Bread": [
+        "I want to fill my stomach.",
+        "I am hungry and need something to eat.",
+        "I want something to snack on.",
+        "I am so hungry. Please give me some food.",
+        "I need something to eat quickly.",
+        "I want something to eat.",
+        "I'm so hungry. Please give me something to eat.",
+        "I'm looking for something to eat."
+    ],
+    "Egg": [
+        "I want to fill my stomach.",
+        "I am hungry and need something to eat.",
+        "I want something to snack on.",
+        "I am so hungry. Please give me some food.",
+        "I need something to eat quickly.",
+        "I want something to eat.",
+        "I'm so hungry. Please give me something to eat.",
+        "I'm looking for something to eat."
+    ],
+    "Lettuce": [
+        "I want to fill my stomach.",
+        "I am hungry and need something to eat.",
+        "I want something to snack on.",
+        "I am so hungry. Please give me some food.",
+        "I require a vegetable for a salad.",
+        "I need something to eat quickly.",
+        "I want something to eat.",
+        "I'm so hungry. Please give me something to eat.",
+        "I'm looking for something to eat."
+    ],
+    "Apple": [
+        "I want to fill my stomach.",
+        "I am hungry and need something to eat.",
+        "I want something to snack on.",
+        "I am so hungry. Please give me some food.",
+        "I need something to eat quickly.",
+        "I want something to eat.",
+        "I'm so hungry. Please give me something to eat.",
+        "I'm looking for something to eat."
+    ],
+    "Potato": [
+        "I want to fill my stomach.",
+        "I am hungry and need something to eat.",
+        "I want something to snack on.",
+        "I am so hungry. Please give me some food.",
+        "I require a vegetable for a salad.",
+        "I need something to eat quickly.",
+        "I want something to eat.",
+        "I'm so hungry. Please give me something to eat.",
+        "I'm looking for something to eat."
+    ],
+    "Tomato": [
+        "I want to fill my stomach.",
+        "I am hungry and need something to eat.",
+        "I want something to snack on.",
+        "I am so hungry. Please give me some food.",
+        "I need something to eat quickly.",
+        "I want something to eat.",
+        "I'm so hungry. Please give me something to eat.",
+        "I'm looking for something to eat."
+    ],
+    "ShowerCurtain": [
+        "I need something to separate my shower from the rest of my bathroom.",
+        "I need something to hold water in the bathtub.",
+        "I need it for decoration."
+    ],
+    "Bed": [
+        "I want a comfortable spot to relax in."
+    ],
+    "Dumbbell": [
+        "I want something to exercise with."
+    ],
+    "BasketBall": [
+        "I want something to exercise with.",
+        "I need to play a game of basketball.",
+        "I want to play a fun game with my friends.",
+        "I need something to play a game with.",
+        "I want to shoot some hoops.",
+        "I wish to play a game."
+    ],
+    "BaseballBat": [
+        "I want something to exercise with.",
+        "I want to play a fun game with my friends.",
+        "I need something to play a game with.",
+        "I wish to play a game.",
+        "I want to stay safe when I'm home alone."
+    ],
+    "TennisRacket": [
+        "I want something to exercise with.",
+        "I need to play tennis.",
+        "I want to play a fun game with my friends.",
+        "I need something to play a game with.",
+        "I wish to play a game.",
+        "I need a racket for tennis."
+    ],
+    "CellPhone": [
+        "I want to communicate with people.",
+        "I need a device for work or entertainment.",
+        "I want to be able to stay in touch with people.",
+        "I want to play a fun game with my friends.",
+        "I want something to communicate with.",
+        "I need to control my electronic devices.",
+        "I need something for entertainment.",
+        "I need a device to make calls with.",
+        "I need something to stay connected.",
+        "I need something to play music.",
+        "I want a device to communicate with.",
+        "I need to set a reminder for an important event.",
+        "I wish to play a game.",
+        "I want to stay connected.",
+        "I need something to operate appliances.",
+        "I need something to keep track of time.",
+        "I need something to make calls.",
+        "I want to know more information.",
+        "I want something to store my music.",
+        "I want to listen to some music.",
+        "I want to know what time it is.",
+        "I need a tool to make marks.",
+        "I need something to operate my devices.",
+        "I want to communicate with someone."
+    ],
+    "Desktop": [
+        "I want to communicate with people.",
+        "I need a device for work or entertainment.",
+        "I want to be able to stay in touch with people.",
+        "I want to play a fun game with my friends.",
+        "I want something to communicate with.",
+        "I need something for entertainment.",
+        "I want to watch something.",
+        "I need a computer to use for work or school.",
+        "I need something to stay connected.",
+        "I need something to watch.",
+        "I need something to play music.",
+        "I want a device to communicate with.",
+        "I wish to play a game.",
+        "I want to stay connected.",
+        "I need a way to work and browse the internet.",
+        "I need a place to work.",
+        "I want to know more information.",
+        "I want a computer.",
+        "I want something to store my music.",
+        "I want a computer system.",
+        "I want to listen to some music.",
+        "I want to know what time it is.",
+        "I need something to store my documents and items.",
+        "I need a tool to make marks.",
+        "I want to communicate with someone.",
+        "I need to do some work.",
+        "I need something to watch programs with."
+    ],
+    "Laptop": [
+        "I want to communicate with people.",
+        "I need a device for work or entertainment.",
+        "I want to be able to stay in touch with people.",
+        "I want to play a fun game with my friends.",
+        "I want something to communicate with.",
+        "I need something for entertainment.",
+        "I want to watch something.",
+        "I need a computer to use for work or school.",
+        "I need something to stay connected.",
+        "I need something to watch.",
+        "I need something to play music.",
+        "I want a device to communicate with.",
+        "I wish to play a game.",
+        "I want to stay connected.",
+        "I need a way to work and browse the internet.",
+        "I want to know more information.",
+        "I want a computer.",
+        "I want something to store my music.",
+        "I want a computer system.",
+        "I want to listen to some music.",
+        "I want to know what time it is.",
+        "I need a tool to make marks.",
+        "I want to communicate with someone.",
+        "I need to do some work.",
+        "I need something to watch programs with."
+    ],
+    "Fridge": [
+        "I need to keep my food fresh.",
+        "I want to prevent my food from spoiling.",
+        "I wish to store items at the correct temperature.",
+        "I am seeking to keep my food fresh."
+    ],
+    "Toaster": [
+        "I need a device to toast my breads and pastries.",
+        "I want something to heat up food quickly.",
+        "I need something to quickly cook bread.",
+        "I want to heat up my food.",
+        "I want to heat up the food.",
+        "I need a way to make toast.",
+        "I need a device to quickly heat my food.",
+        "I need something to cook bread."
+    ],
+    "ButterKnife": [
+        "I need to spread butter.",
+        "I need a utensil to eat my food.",
+        "I need something to eat food with.",
+        "I need something to eat my meals with.",
+        "I want to eat food.",
+        "I want something to eat with.",
+        "I want to spread butter on something.",
+        "I need something to spread bread or butter with.",
+        "I want to spread something on my bread."
+    ],
+    "Cloth": [
+        "I need something to clean with.",
+        "I want something to clean with.",
+        "I need something to wrap up my things.",
+        "I need something to clean up.",
+        "I require something to clean.",
+        "I need something to clean up spills.",
+        "I need something to clean up after spills."
+    ],
+    "DishSponge": [
+        "I need something to clean with."
+    ],
+    "PaperTowelRoll": [
+        "I need something to clean with.",
+        "I want to use it in the restroom.",
+        "I need something to dry my hands on.",
+        "I want something to clean with.",
+        "I want something to dry myself off with.",
+        "I need something to wrap up my things.",
+        "I need something to clean up.",
+        "I want some paper towels to clean up with.",
+        "I want something to wipe myself with.",
+        "I want something to dry hands with.",
+        "I require something to clean.",
+        "I need something to clean up after using the restroom.",
+        "I want something to dry myself off.",
+        "I want to dry my hands.",
+        "I need something to clean up after spills."
+    ],
+    "ScrubBrush": [
+        "I need something to clean with.",
+        "I need to clean the carpets and floors.",
+        "I need something to clean hard-to-reach places.",
+        "I want something to clean with.",
+        "I need something to clean up.",
+        "I require something to clean."
+    ],
+    "SoapBar": [
+        "I need something to clean with.",
+        "I need to cleanse my body.",
+        "I want something to wash my hands with.",
+        "I want something to clean with.",
+        "I need something to clean up.",
+        "I require something to clean."
+    ],
+    "SoapBottle": [
+        "I need something to clean with.",
+        "I need to cleanse my body.",
+        "I want something to wash my hands with.",
+        "I want something to put soap in.",
+        "I want something to clean with.",
+        "I need something to store soap in.",
+        "I need something to store my soap.",
+        "I need something to store liquid soap.",
+        "I need something to clean up.",
+        "I need a container to store my soap in.",
+        "I require something to clean."
+    ],
+    "Candle": [
+        "I need something to light a room up.",
+        "I need a light so that I can work.",
+        "I want something to keep the room illuminated while working.",
+        "I need something to light up the room.",
+        "I need more light to read.",
+        "I want to illuminate my workspace.",
+        "I want to provide light while reading or working.",
+        "I need light to see.",
+        "I want something to light up my desk.",
+        "I need some extra light to work.",
+        "I need to make my room brighter.",
+        "I want something to light up a room.",
+        "I need light in the dark."
+    ],
+    "FloorLamp": [
+        "I need something to light a room up.",
+        "I need a light so that I can work.",
+        "I want something to keep the room illuminated while working.",
+        "I need something to light up the room.",
+        "I need more light to read.",
+        "I want to illuminate my workspace.",
+        "I want to provide light while reading or working.",
+        "I want something to make the floor area brighter.",
+        "I need light to see.",
+        "I need some extra light to work.",
+        "I need to make my room brighter.",
+        "I want something to light up a room.",
+        "I need light in the dark."
+    ],
+    "DeskLamp": [
+        "I need something to light a room up.",
+        "I need a light so that I can work.",
+        "I want something to keep the room illuminated while working.",
+        "I want to read at night without disturbing others.",
+        "I want something to make the desk area brighter.",
+        "I need something to light up the room.",
+        "I need more light to read.",
+        "I want to illuminate my workspace.",
+        "I want to provide light while reading or working.",
+        "I need light to see.",
+        "I want something to light up my desk.",
+        "I need some extra light to work.",
+        "I need to make my room brighter.",
+        "I want something to light up a room.",
+        "I need light in the dark."
+    ],
+    "Spatula": [
+        "I want to lift or flip food.",
+        "I need a tool to flip something.",
+        "I need a utensil to flip food.",
+        "I need a utensil for serving food.",
+        "I need something to eat food with.",
+        "I want to eat food.",
+        "I want something to eat with."
+    ],
+    "Knife": [
+        "I need something to cut food into smaller pieces.",
+        "I want something to cut my food.",
+        "I need a utensil to eat my food.",
+        "I need a utensil for serving food.",
+        "I need something to eat food with.",
+        "I need something to eat my meals with.",
+        "I want to eat food.",
+        "I want something to eat with.",
+        "I need it to cut my food.",
+        "I want to stay safe when I'm home alone."
+    ],
+    "VacuumCleaner": [
+        "I need something to clean carpets and rugs.",
+        "I need to clean the carpets and floors.",
+        "I want to clean up the mess."
+    ],
+    "WateringCan": [
+        "I need to pour something to the plants.",
+        "I want something to water plants with.",
+        "I need something to water plants."
+    ],
+    "Microwave": [
+        "I want something to heat up food quickly.",
+        "I would like to have something to make a hot drink.",
+        "I need something to cook food in.",
+        "I want to heat up my food.",
+        "I want to heat up the food.",
+        "I need a device to quickly heat my food.",
+        "I need something to cook food with."
+    ],
+    "HandTowelHolder": [
+        "I want something to store towels.",
+        "I need somewhere to hang my towel."
+    ],
+    "TowelHolder": [
+        "I want something to store towels.",
+        "I need somewhere to hang my towel.",
+        "I need a place to store my towel.",
+        "I need something to keep a towel in.",
+        "I need something to store a towel.",
+        "I need something to hang my towels."
+    ],
+    "CreditCard": [
+        "I need a way to pay for things.",
+        "I want something to make a financial transaction.",
+        "I need something to buy things with.",
+        "I would like to make a purchase.",
+        "I need something to pay with.",
+        "I need to purchase items."
+    ],
+    "Box": [
+        "I want to organize my items.",
+        "I need a place to store clothing.",
+        "I need something to store my dirty laundry.",
+        "I need something to store my clothes.",
+        "I need a place to store my dirty laundry.",
+        "I need something to pack items in.",
+        "I need something store and organize items.",
+        "I need somewhere to store something.",
+        "I need somewhere to store my books and other items.",
+        "I need somewhere to keep my toilet paper.",
+        "I need something to store my things in.",
+        "I want somewhere to store my things.",
+        "I need something to store my documents and items.",
+        "I need a place to keep my clothes.",
+        "I need somewhere to put my clothes."
+    ],
+    "ShelvingUnit": [
+        "I want to organize my items.",
+        "I need something to pack items in.",
+        "I need something store and organize items.",
+        "I need somewhere to store something.",
+        "I need somewhere to store my books and other items.",
+        "I need something to store my things in.",
+        "I want somewhere to store my things."
+    ],
+    "CoffeeMachine": [
+        "I want to make coffee.",
+        "I would like to have something to make a hot drink.",
+        "I want something to make coffee.",
+        "I want to make coffee quickly."
+    ],
+    "Window": [
+        "I want something to look out from.",
+        "I need something to allow light and air into the room."
+    ],
+    "KeyChain": [
+        "I need something to hold my keys.",
+        "I want to have all my keys together.",
+        "I need somewhere to put my keys."
+    ],
+    "Kettle": [
+        "I would like to have something to make a hot drink.",
+        "I need something to store liquid.",
+        "I need something to store my liquids.",
+        "I want to drink water or coffee.",
+        "I am thirsty and need something to drink from.",
+        "I need a container for my drinks."
+    ],
+    "Fork": [
+        "I want something to cut my food.",
+        "I need a utensil to eat my food.",
+        "I need a utensil for serving food.",
+        "I need something to eat food with.",
+        "I need something to eat my meals with.",
+        "I want to eat food.",
+        "I want something to eat with."
+    ],
+    "Blinds": [
+        "I need a window to let in natural light.",
+        "I want to control the amount of light entering the room.",
+        "I need something to block out the light.",
+        "I need a way to cover my windows for privacy."
+    ],
+    "CoffeeTable": [
+        "I need a place to put my drinks and snacks.",
+        "I need somewhere to write or to do my work.",
+        "I want a surface to put things on.",
+        "I need a place to hold coffee.",
+        "I need something to place items on top of.",
+        "I need a place to put items on.",
+        "I need somewhere to put some things.",
+        "I want to place items next to my sofa.",
+        "I require a surface to eat meals on.",
+        "I need somewhere to put things.",
+        "I want to put my coffee cup and snacks.",
+        "I need something to put my coffee on.",
+        "I need somewhere to eat meals.",
+        "I need a low surface to put drinks and food."
+    ],
+    "SideTable": [
+        "I need a place to put my drinks and snacks.",
+        "I want a surface to put things on.",
+        "I need a place to hold coffee.",
+        "I need something to place items on top of.",
+        "I need a place to put items on.",
+        "I need somewhere to put some things.",
+        "I need somewhere to set my television.",
+        "I want to place items next to my sofa.",
+        "I need a place to work.",
+        "I need somewhere to put things.",
+        "I want to put my coffee cup and snacks.",
+        "I need something to put my coffee on.",
+        "I need a low surface to put drinks and food.",
+        "I need something to hold my television."
+    ],
+    "CounterTop": [
+        "I need a place to put my drinks and snacks.",
+        "I need somewhere to write or to do my work.",
+        "I want a surface to put things on.",
+        "I need a place to hold coffee.",
+        "I need something to place items on top of.",
+        "I need a place to put items on.",
+        "I need somewhere to put some things.",
+        "I need somewhere to set my television.",
+        "I want to place items next to my sofa.",
+        "I need a place to work.",
+        "I need somewhere to put things.",
+        "I want to put my coffee cup and snacks.",
+        "I need something to put my coffee on.",
+        "I need a work surface for kitchen tasks.",
+        "I need a low surface to put drinks and food.",
+        "I need something to hold my television."
+    ],
+    "Desk": [
+        "I need a place to put my drinks and snacks.",
+        "I need somewhere to write or to do my work.",
+        "I want a surface to put things on.",
+        "I need a place to hold coffee.",
+        "I need something to place items on top of.",
+        "I need a place to put items on.",
+        "I need somewhere to put some things.",
+        "I want to place items next to my sofa.",
+        "I need a place to work.",
+        "I need somewhere to put things.",
+        "I want to put my coffee cup and snacks.",
+        "I need something to put my coffee on.",
+        "I need a low surface to put drinks and food."
+    ],
+    "Dresser": [
+        "I need a place to put my drinks and snacks.",
+        "I need a place to store clothing.",
+        "I need a place to hold coffee.",
+        "I need something to place items on top of.",
+        "I need something to store my clothes.",
+        "I need a place to put items on.",
+        "I want to put my coffee cup and snacks.",
+        "I need something to put my coffee on.",
+        "I need a place to keep my clothes.",
+        "I need somewhere to put my clothes.",
+        "I need a low surface to put drinks and food."
+    ],
+    "SaltShaker": [
+        "I need something to flavor my food with.",
+        "I want to season my food.",
+        "I need something to season the food.",
+        "I want to add some flavor to my dish."
+    ],
+    "PepperShaker": [
+        "I need something to flavor my food with.",
+        "I want to season my food.",
+        "I need something to season the food.",
+        "I want to add some flavor to my dish."
+    ],
+    "DogBed": [
+        "I need a comfortable place for my dog to sleep.",
+        "I need something for my pet to sleep on.",
+        "I need something to provide comfort to my pet.",
+        "I need something for my pet to sleep in.",
+        "I need somewhere comfortable for my pet.",
+        "I need somewhere for my pet to sleep.",
+        "I need something to keep my pet warm and cozy.",
+        "I need somewhere for my pet to rest.",
+        "I need something to make my pet comfortable.",
+        "I would like a comfortable place for my pet to sleep."
+    ],
+    "LaundryHamper": [
+        "I need something to store my dirty laundry.",
+        "I need a place to store my dirty laundry."
+    ],
+    "Bottle": [
+        "I need something to store liquid.",
+        "I need something to store my liquids.",
+        "I am thirsty and need something to drink from.",
+        "I need a container for my drinks."
+    ],
+    "WineBottle": [
+        "I need something to store liquid.",
+        "I need something to store the wine.",
+        "I need something to store my liquids.",
+        "I am thirsty and need something to drink from.",
+        "I need a container for my drinks."
+    ],
+    "RemoteControl": [
+        "I need a way to control my TV.",
+        "I need to control my electronic devices.",
+        "I need a way to control the TV.",
+        "I need something to control my electronic devices from a distance.",
+        "I need something to operate appliances.",
+        "I need something to operate my devices."
+    ],
+    "TissueBox": [
+        "I want something to store tissues in.",
+        "I need something to store tissues in.",
+        "I need somewhere to keep my toilet paper.",
+        "I need something to keep my tissues in.",
+        "I need somewhere to store tissues.",
+        "I want to wipe my nose."
+    ],
+    "AluminumFoil": [
+        "I would like to wrap up my food.",
+        "I want to prevent my food from spoiling.",
+        "I want to wrap food to keep it from going bad.",
+        "I need to wrap or cover something to keep it fresh.",
+        "I want something to wrap my food up in."
+    ],
+    "Plunger": [
+        "I need something to unclog drains with.",
+        "I need something to unclog a drain.",
+        "I want something to unclog drains.",
+        "I need to unclog a drain.",
+        "I need to unclog my drains.",
+        "I need something to unclog my drain."
+    ],
+    "Pot": [
+        "I need something to boil water or cook food.",
+        "I need something to cook food in.",
+        "I need something to cook food with."
+    ],
+    "Pan": [
+        "I need something to boil water or cook food.",
+        "I need something to cook food in.",
+        "I want to stay safe when I'm home alone.",
+        "I need something to cook food with."
+    ],
+    "Book": [
+        "I need something for entertainment.",
+        "I need something to read and learn.",
+        "I want to know more information.",
+        "I would like to have something to read."
+    ],
+    "Newspaper": [
+        "I need something for entertainment.",
+        "I need something to read and learn.",
+        "I want to know more information.",
+        "I would like to have something to read."
+    ],
+    "Television": [
+        "I need something for entertainment.",
+        "I want to watch something.",
+        "I need something to watch.",
+        "I want to know more information.",
+        "I need something to watch programs with."
+    ],
+    "ShowerHead": [
+        "I want something to spray water out of.",
+        "I need to be able to shower.",
+        "I need something to direct the water flow.",
+        "I need a device to take a shower.",
+        "I need to get some water.",
+        "I need something to dispense water.",
+        "I need a way to get water out."
+    ],
+    "Faucet": [
+        "I want something to spray water out of.",
+        "I need something to direct the water flow.",
+        "I need to get some water.",
+        "I need something to dispense water.",
+        "I need a way to get water out."
+    ],
+    "Spoon": [
+        "I need a utensil to eat my food.",
+        "I need a utensil for serving food.",
+        "I need something to eat food with.",
+        "I need something to eat my meals with.",
+        "I want to eat food.",
+        "I want something to eat with.",
+        "I need a tool to scoop liquid food items."
+    ],
+    "Ladle": [
+        "I need a utensil for serving food.",
+        "I need something to eat food with.",
+        "I need something to eat my meals with.",
+        "I want to eat food.",
+        "I want something to eat with.",
+        "I need a tool to scoop liquid food items."
+    ],
+    "CD": [
+        "I need something to play music.",
+        "I want something to store my music.",
+        "I want to listen to some music."
+    ],
+    "HandTowel": [
+        "I want to use it in the restroom.",
+        "I need something to dry my hands on.",
+        "I want something to clean with.",
+        "I want something to dry myself off with.",
+        "I need something to wrap up my things.",
+        "I need something to clean up.",
+        "I want something to wipe myself with.",
+        "I want something to dry hands with.",
+        "I require something to clean.",
+        "I need something to clean up after using the restroom.",
+        "I want to dry myself off after taking a shower.",
+        "I want something to dry myself off.",
+        "I want to dry my hands.",
+        "I need something to clean up spills.",
+        "I need something to clean up after spills."
+    ],
+    "Towel": [
+        "I want to use it in the restroom.",
+        "I need something to dry my hands on.",
+        "I want something to clean with.",
+        "I want something to dry myself off with.",
+        "I need something to wrap up my things.",
+        "I need something to clean up.",
+        "I want something to wipe myself with.",
+        "I want something to dry hands with.",
+        "I require something to clean.",
+        "I need something to clean up after using the restroom.",
+        "I want to dry myself off after taking a shower.",
+        "I want something to dry myself off.",
+        "I want to dry my hands.",
+        "I need something to clean up spills.",
+        "I need something to clean up after spills."
+    ],
+    "ToiletPaper": [
+        "I want to use it in the restroom.",
+        "I need something to dry my hands on.",
+        "I want something to dry myself off with.",
+        "I want something to wipe myself with.",
+        "I need something to clean up after using the restroom.",
+        "I want something to dry myself off.",
+        "I want to dry my hands."
+    ],
+    "Cart": [
+        "I want something to carry my items around with."
+    ],
+    "Boots": [
+        "I need something to keep my feet warm.",
+        "I need a pair of shoes to walk outside."
+    ],
+    "Plate": [
+        "I need something to eat my meals with.",
+        "I need somewhere to put my food.",
+        "I need a place for food.",
+        "I want something to eat food on.",
+        "I want something to eat from.",
+        "I want to hold food."
+    ],
+    "Bowl": [
+        "I need somewhere to put my food.",
+        "I need a place for food.",
+        "I want something to eat food on.",
+        "I want something to eat from.",
+        "I want to hold food."
+    ],
+    "Doorframe": [
+        "I need something to keep the door open.",
+        "I need an entrance into my home.",
+        "I want something to secure the door.",
+        "I need a structure to hold a door.",
+        "I need to enter or leave a room."
+    ],
+    "GarbageBag": [
+        "I need something to store the garbage bag in.",
+        "I need something to store trash inside.",
+        "I need something to contain my garbage.",
+        "I want somewhere to dispose of my garbage.",
+        "I need something to collect my garbage.",
+        "I need something to put waste into."
+    ],
+    "GarbageCan": [
+        "I need something to store the garbage bag in.",
+        "I need something to store trash inside.",
+        "I need something to contain my garbage.",
+        "I want somewhere to dispose of my garbage.",
+        "I need something to collect my garbage.",
+        "I need something to put waste into."
+    ],
+    "Footstool": [
+        "I need somewhere to put my feet up.",
+        "I need a furniture piece to kick my feet up.",
+        "I need a place to put my feet."
+    ],
+    "AlarmClock": [
+        "I need to set a reminder for an important event.",
+        "I need something to keep track of time.",
+        "I want to know what time it is."
+    ],
+    "TVStand": [
+        "I need somewhere to set my television.",
+        "I need something to hold my television."
+    ],
+    "Pen": [
+        "I need an object to write with.",
+        "I need a tool to make marks.",
+        "I need something to leave a mark.",
+        "I need something to write and draw with."
+    ],
+    "Pencil": [
+        "I need an object to write with.",
+        "I need a tool to make marks.",
+        "I need something to leave a mark.",
+        "I need something to write and draw with."
+    ],
+    "ToiletPaperHanger": [
+        "I need somewhere to keep my toilet paper.",
+        "I need to hang toilet paper."
+    ],
+    "Safe": [
+        "I need somewhere to put my keys.",
+        "I need something to store my documents and items."
+    ],
+    "Doorway": [
+        "I need an entrance into my home.",
+        "I want an opening and closing way out of a room.",
+        "I need to enter or leave a room.",
+        "I need to enter a room."
+    ],
+    "DiningTable": [
+        "I require a surface to eat meals on.",
+        "I need a work surface for kitchen tasks.",
+        "I need somewhere to eat meals."
+    ],
+    "TeddyBear": [
+        "I want to cuddle with something.",
+        "I need a soft toy to hug.",
+        "I need a toy to comfort my child."
+    ],
+    "Pillow": [
+        "I want to cuddle with something."
+    ],
+    "Watch": [
+        "I need something to keep track of time.",
+        "I want to know what time it is."
+    ],
+    "SprayBottle": [
+        "I need something to spray liquids."
+    ],
+    "Sink": [
+        "I need a place to wash things."
+    ]
+}
