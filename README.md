@@ -14,7 +14,7 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 - [ ] Refine and Vis
 
 ## Overview
-<img src="demos/NIPS-2023-DDN.gif" align="middle" width="700"/> 
+<img src="demo/NIPS-2023-DDN.gif" align="middle" width="700"/> 
 We propose a demand-driven navigation task, which requires an agent to find objects that satisfy human demands, and propose a novel method to solve this task.
 
 ## Dataset
@@ -47,5 +47,7 @@ We provide the raw trajectory data. Please move them to [dataset](./dataset/) an
 
 ## Contact
 If you have any suggestion or questions, please feel free to contact us:
+
 [Hongcheng Wang](https://whcpumpkin.github.io):[whc.1999@pku.edu.cn](mailto:whc.1999@pku.edu.cn)
+
 [Hao Dong](https://zsdonghao.github.io/): [hao.dong@pku.edu.cn](mailto:hao.dong@pku.edu.cn)
