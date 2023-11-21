@@ -5,9 +5,9 @@
 This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven Navigation](https://arxiv.org/abs/2309.08138)
 
 ## TODOs (Under Development):
-- [√] README
-- [√] Instruction Dataset
-- [√] Trajectory Dataset
+- [x] README
+- [x] Instruction Dataset
+- [x] Trajectory Dataset
 - [ ] Utils Code
 - [ ] Testing
 - [ ] Training
