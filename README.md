@@ -7,7 +7,7 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 ## TODOs (Under Development):
 - [x] README
 - [x] Instruction Dataset
-- [x] Trajectory Dataset
+- [ ] Trajectory Dataset
 - [ ] Utils Code
 - [ ] Testing
 - [ ] Training
@@ -23,25 +23,7 @@ We propose a demand-driven navigation task, which requires an agent to find obje
 Please see [dataset](./dataset/).
 
 ### Trajectory Dataset
-The download link is [here](https://drive.google.com/file/d/1xcI5j6AHx3MCNjzhpWrtM_7B06KPL_6_/view?usp=sharing).
-
-For Chinese, we provide [百度网盘](https://pan.baidu.com/s/1ghLdUjp5AMCTqpLOM1byVw?pwd=1rid).
-
-We provide the raw trajectory data. Please move them to [dataset](./dataset/) and then unzip them. The following is the structure of the files in the `raw_trajectory_dataset.zip` package. `bc_{train,val}_check.json` are the metadata of trajectory dataset.
-
-```
-┌bc
-│ ├train
-│ │  └house_{idx}
-│ │      └path_{idx}
-│ │         └{idx}.jpg
-│ └val
-│    └house_{idx}
-│        └path_{idx}
-│ │         └{idx}.jpg
-├bc_train_check.json
-┕bc_val_check.json
-```
+TODO
 
 
 
