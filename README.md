@@ -11,7 +11,6 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 - [ ] Utils Code
 - [ ] Testing
 - [ ] Training
-- [ ] Refine and Vis
 
 ## Overview
 <img src="demo/NIPS-2023-DDN.gif" align="middle" width="700"/> 
@@ -48,6 +47,6 @@ We provide the raw trajectory data. Please move them to [dataset](./dataset/) an
 ## Contact
 If you have any suggestion or questions, please feel free to contact us:
 
-[Hongcheng Wang](https://whcpumpkin.github.io):[whc.1999@pku.edu.cn](mailto:whc.1999@pku.edu.cn)
+[Hongcheng Wang](https://whcpumpkin.github.io): [whc.1999@pku.edu.cn](mailto:whc.1999@pku.edu.cn)
 
 [Hao Dong](https://zsdonghao.github.io/): [hao.dong@pku.edu.cn](mailto:hao.dong@pku.edu.cn)
