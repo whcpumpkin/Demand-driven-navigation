@@ -7,7 +7,8 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 ## TODOs (Under Development):
 - [x] README
 - [x] Instruction Dataset
-- [ ] Trajectory Dataset
+- [x] Trajectory Dataset
+- [ ] Pre-generated Dataset
 - [ ] Utils Code
 - [ ] Testing
 - [ ] Training
@@ -17,15 +18,18 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 <img src="demo/NIPS-2023-DDN.gif" align="middle" width="700"/> 
 We propose a demand-driven navigation task, which requires an agent to find objects that satisfy human demands, and propose a novel method to solve this task.
 
+## Materials Download (Under Updating)
+
+For dataset and pretrained models, the download link is [here](https://drive.google.com/drive/folders/1iR-zf3SHLMhA05IQXsQGUfyfB-8spFC-?usp=sharing).
+
+For Chinese, we provide [百度网盘](https://pan.baidu.com/s/1ghLdUjp5AMCTqpLOM1byVw?pwd=1rid).
+
 ## Dataset
 
 ### Instruction Dataset
 Please see [dataset](./dataset/).
 
 ### Trajectory Dataset
-The download link is [here](https://drive.google.com/file/d/1xcI5j6AHx3MCNjzhpWrtM_7B06KPL_6_/view?usp=sharing).
-
-For Chinese, we provide [百度网盘](https://pan.baidu.com/s/1ghLdUjp5AMCTqpLOM1byVw?pwd=1rid).
 
 We provide the raw trajectory data. Please move them to [dataset](./dataset/) and then unzip them. The following is the structure of the files in the `raw_trajectory_dataset.zip` package. `bc_{train,val}_check.json` are the metadata of trajectory dataset.
 
@@ -43,6 +47,16 @@ We provide the raw trajectory data. Please move them to [dataset](./dataset/) an
 ┕bc_val_check.json
 ```
 
+### Pre-generated Dataset
+
+In order to speed up the training, we use DETR model to segment the image in advance and get the corresponding CLIP-Visual-Feature.
+
+```
+python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=train --top_k=16
+python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=val --top_k=16
+python generate_pre_data.py --mode=merge_pre_crop_json 
+
+```
 
 
 ## Contact
