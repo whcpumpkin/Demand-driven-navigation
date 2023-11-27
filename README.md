@@ -48,13 +48,25 @@ We provide the raw trajectory data. Please move them to [dataset](./dataset/) an
 
 ### Pre-generated Dataset
 
-In order to speed up the training, we use DETR model to segment the image in advance and get the corresponding CLIP-Visual-Feature.
+In order to speed up the training, we use DETR model to segment the image in advance and get the corresponding CLIP-Visual-Feature. It takes $30h$ in a server with dual E5-2680V4 processors and a 22GB RTX 2080Ti graphics card.
 
 ```
-python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=train --top_k=16
-python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=val --top_k=16
+python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=train --top_k=16 --workers=5
+python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=val --top_k=16 --workers=1
 python generate_pre_data.py --mode=merge_pre_crop_json 
 
+```
+
+### Training
+
+To train the Attribute Module, Prepare the following files in the [dataset](./dataset/): `instruction_{train,val}_check.json`, `LGO_features.json`, `instruction_bert_features.json`
+
+
+
+Then run:
+
+```
+python train_attribute_features.py --epoch=5000
 ```
 
 
