@@ -13,6 +13,9 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 - [ ] Testing
 - [ ] Training
 
+## Warning: I am currently refactoring my code. Although all code committed to the repository has been tested, there may still be some minor issues.
+
+
 ## Overview
 <img src="demo/NIPS-2023-DDN.gif" align="middle" width="700"/> 
 We propose a demand-driven navigation task, which requires an agent to find objects that satisfy human demands, and propose a novel method to solve this task.
