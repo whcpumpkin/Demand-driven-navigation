@@ -13,6 +13,9 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 - [ ] Testing
 - [ ] Training
 
+## Warning: I am currently refactoring my code. Although all code committed to the repository has been tested, there may still be some minor issues.
+
+
 ## Overview
 <img src="demo/NIPS-2023-DDN.gif" align="middle" width="700"/> 
 We propose a demand-driven navigation task, which requires an agent to find objects that satisfy human demands, and propose a novel method to solve this task.
@@ -51,8 +54,8 @@ We provide the raw trajectory data. Please move them to [dataset](./dataset/) an
 In order to speed up the training, we use DETR model to segment the image in advance and get the corresponding CLIP-Visual-Feature. It takes $30h$ in a server with dual E5-2680V4 processors and a 22GB RTX 2080Ti graphics card.
 
 ```
-python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=train --top_k=16 --workers=5
-python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=val --top_k=16 --workers=1
+python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=train --top_k=16 
+python generate_pre_data.py --mode=pre_traj_crop --dataset_mode=val --top_k=16 
 python generate_pre_data.py --mode=merge_pre_crop_json 
 
 ```
@@ -60,8 +63,6 @@ python generate_pre_data.py --mode=merge_pre_crop_json
 ### Training
 
 To train the Attribute Module, Prepare the following files in the [dataset](./dataset/): `instruction_{train,val}_check.json`, `LGO_features.json`, `instruction_bert_features_check.json`
-
-
 
 Then run:
 

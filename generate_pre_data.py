@@ -29,6 +29,7 @@ import clip
 import math
 import orjson
 BICUBIC = InterpolationMode.BICUBIC
+import multiprocessing
 
 
 def get_valid_transforms(h, w):
@@ -43,7 +44,7 @@ def _convert_image_to_rgb(image):
     return image.convert("RGB")
 
 
-def pre_traj_crop():
+def pre_traj_crop(args):
     with open(args.path2dataset + "bc_{}_check.json".format(args.dataset_mode), 'r', encoding='utf8') as fp:
         data = json.load(fp)
     detr = DETRModel(2, 100)
@@ -76,7 +77,7 @@ def pre_traj_crop():
 
     pre_data = []
 
-    for i in tqdm(range(args.start, len(data))):
+    for i in tqdm(range(args.start, min(len(data),args.end)), desc="preprocess:{}".format(args.start)):
         # print(i)
         pre_data_item = {}
         path = data[i]["path"]
@@ -110,9 +111,6 @@ def pre_traj_crop():
             local_feature = crop_from_bounding_box(image, detr_output['pred_boxes'][0], top_k_idx[0])
 
             pre_data_item['image_pre'][str(j)] = torch.cat([local_feature, bbox_top_k, logits_top_k], dim=-1).cpu().detach().numpy()
-            # pre_data_item['image_pre'][str(j)]["feature"] = local_feature.cpu().detach().numpy()
-            # pre_data_item['image_pre'][str(j)]["bbox"] = bbox_top_k.cpu().detach().numpy()
-            # pre_data_item['image_pre'][str(j)]["logits"] = logits_top_k.cpu().detach().numpy()
         pre_data.append(pre_data_item)
         # json.dump(pre_data_item, f_json)
         # break
@@ -125,13 +123,32 @@ def pre_traj_crop():
     f_json = open("./dataset/bc_{}_{}_pre.json".format(args.dataset_mode, i), 'wb')
     f_json.write(serialize)
     
-def merge_pre_crop_json():
+    
+        
+def merge_pre_crop_json(args):
+    # all_data = []
+    # for idx in [2952]:
+    #     hf = h5py.File("./dataset/bc_val_0_pre.h5", 'w')
+    #     num = 0
+    #     pa_set = set()
+    #     with open("./dataset/bc_val_{}_pre.json".format(idx), "rb") as f:
+    #         data = orjson.loads(f.read())
+    #         for item in tqdm(data):
+    #             if item["path"].replace("/", "_") in pa_set:
+    #                 continue
+    #             else:
+    #                 pa_set.add(item["path"].replace("/", "_"))
+    #             for l in range(len(item["image_pre"])):
+    #                 p = item["path"].replace("/", "_") + "_" + str(l)
+    #                 hf[p] = item["image_pre"][str(l)]
+    #     hf.close()
+    
     all_data = []
-    for idx in [args.start]:
-        hf = h5py.File("./dataset/bc_val_0_pre.h5", 'w')
+    for idx in [5999,11999,17999,23999,25616]:
+        hf = h5py.File("./dataset/bc_train_{}_pre.h5".format(idx//6000), 'w')
         num = 0
         pa_set = set()
-        with open("./dataset/bc_val_{}_pre.json".format(idx), "rb") as f:
+        with open("./dataset/bc_train_{}_pre.json".format(idx), "rb") as f:
             data = orjson.loads(f.read())
             for item in tqdm(data):
                 if item["path"].replace("/", "_") in pa_set:
@@ -146,4 +163,7 @@ def merge_pre_crop_json():
 if __name__ == "__main__":
     args = parse_arguments()
 
-    pre_traj_crop()
+    if args.mode=="pre_traj_crop":
+        pre_traj_crop(args)
+    elif args.mode=="merge_pre_crop_json":
+        merge_pre_crop_json(args)
