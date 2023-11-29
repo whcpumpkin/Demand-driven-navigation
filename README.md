@@ -59,7 +59,7 @@ python generate_pre_data.py --mode=merge_pre_crop_json
 
 ### Training
 
-To train the Attribute Module, Prepare the following files in the [dataset](./dataset/): `instruction_{train,val}_check.json`, `LGO_features.json`, `instruction_bert_features.json`
+To train the Attribute Module, Prepare the following files in the [dataset](./dataset/): `instruction_{train,val}_check.json`, `LGO_features.json`, `instruction_bert_features_check.json`
 
 
 
