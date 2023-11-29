@@ -4,12 +4,133 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from model import model, attribute_model
-from model.model import BaseModel, PreTrainedVisualTransformer_Object, PreTrainedVisualTransformer_Demand, ZSONModel
-from a2c_ppo_acktr.distributions import Bernoulli, Categorical, DiagGaussian
+from model import models_mae
+
+class BaseModel(torch.nn.Module):
+
+    def __init__(self, args, instruction_feature_dim=1024, global_image_feature_dim=1024):
+        super().__init__()
+        self.args = args
+        self.action_space = 6
+
+        self.global_image_encoder = models_mae.__dict__["mae_vit_large_patch16"](norm_pix_loss=True)
+        checkpoint = torch.load("./pretrained_model/mae_pretrain_model.pth", map_location='cpu')
+        self.global_image_encoder.load_state_dict(checkpoint['model'])
+        self.global_image_encoder = self.global_image_encoder.to(args.device)
+        self.transform_global = transforms.Compose([transforms.ToPILImage(), transforms.Resize(args.input_size, interpolation=3), transforms.CenterCrop(224),
+                                                transforms.ToTensor(), transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
 
 
-class Object:
-    pass
+
+        self.attribute_model = attention_attribute_model(args)
+
+        attribute_model_ckpt = torch.load("./pretrained_model/attribute_model2.pt", map_location=torch.device('cpu'))
+        self.attribute_model.load_state_dict(attribute_model_ckpt['model_state_dict'])
+        self.attribute_model = self.attribute_model.to(self.args.device)
+        self.attribute_mlp = nn.Linear(args.attribute_feature_dim + 6, args.attribute_feature_dim).to(self.args.device)
+            
+
+
+        # --------fusion model--------pretrained in supervised learning----------
+        self.fusion_model = fusion_model(args, attribute_feature_dim=args.attribute_feature_dim, depth_dim=0).to(self.args.device)
+
+    def forward(self, inputs):
+        # bs*100*512
+        local_image_feature = inputs['local_feature']['features'].to(self.args.device)
+
+        bs = local_image_feature.shape[0]
+        local_image_num = local_image_feature.shape[1]
+
+        # bs*1024
+        instruction_feature = inputs["instruction"].to(self.args.device).float()
+        # bs*100*1024
+        instruction_feature_rep = instruction_feature.unsqueeze(dim=1).repeat(1, local_image_num, 1).to(self.args.device)
+        # 12800*1*1536
+        
+        attr_input = torch.cat((instruction_feature_rep.reshape(bs * local_image_num, -1), local_image_feature.reshape(bs * local_image_num, -1)), dim=-1).unsqueeze(dim=1)
+            # 12800*512
+        attr_feature = self.attribute_model(attr_input).squeeze(dim=1)
+        # bs*100*512
+        attr_feature = attr_feature.reshape(bs, local_image_num, -1)
+
+        attr_feature = self.attribute_mlp(torch.cat((attr_feature, inputs['local_feature']['bboxes'].to(
+            self.args.device).squeeze(dim=1), inputs['local_feature']['logits'].to(self.args.device).squeeze(dim=1)), dim=-1))
+        # bs*1024
+
+        global_image_feature = self.global_image_encoder(inputs['image'].to(self.args.device), pre_train=False)
+        # bs*1*256
+        # bs*1*1024
+        fusion_instruction = instruction_feature.unsqueeze(dim=1)
+        # bs*1*1024
+        global_image_feature = global_image_feature.unsqueeze(dim=1)
+        # bs*1*512
+        vis_feature = self.fusion_model(attr_feature, fusion_instruction, global_image_feature)
+
+        return vis_feature
+
+    def forward_batch(self, inputs):
+
+        detr_query_num = 100
+        local_image_feature = inputs.crop.to(self.args.device).reshape(-1, 512)  # (400,512)
+
+        instruction_features = inputs.instruction_features.to(self.args.device)  # (4,1024)
+        instruction_features_rep = instruction_features.unsqueeze(dim=1).repeat(1, detr_query_num, 1).reshape(-1, 1024)  # (400,1024)
+
+        attr_input = torch.cat((instruction_features_rep, local_image_feature), dim=-1).unsqueeze(dim=1)  # (400,1,1536)
+        attr_feature = self.attribute_model(attr_input).squeeze(dim=1)  # (400,128)
+        attr_feature = attr_feature.reshape(-1, detr_query_num, attr_feature.shape[-1])  # (4,100,128)
+
+        # global_image = inputs.frame.to(self.args.device)  # (4, 3, 224, 224)
+        global_image = [self.transform_global(np.array(inputs.frame[i], dtype=np.uint8)) for i in range(inputs.frame.shape[0])]
+        global_image = torch.stack(global_image, dim=0).to(self.args.device)
+        global_image_feature = self.global_image_encoder(global_image, pre_train=False)  # (4,1024)
+
+        # depth = self.depth_resnet_feature_extractor(inputs["depth"], return_tensors="pt")
+        depth = inputs.depth_frame.to(self.args.device) / 255.0
+        depth_feature = self.depth_mlp(self.depth_cnn(depth.unsqueeze(dim=1).to(self.args.device))).unsqueeze(dim=1)
+
+        fusion_instruction = instruction_features.unsqueeze(dim=1)
+        global_image_feature = global_image_feature.unsqueeze(dim=1)
+        vis_feature = self.fusion_model(attr_feature, fusion_instruction, global_image_feature, depth_feature)
+
+        return vis_feature
+
+    def forward_pre(self, inputs):
+        # bs*100*512
+        local_image_feature = inputs['crop'][:, :, :512].to(self.args.device)
+
+        bs = local_image_feature.shape[0]
+        local_image_num = local_image_feature.shape[1]
+
+        # bs*1024
+        instruction_feature = inputs["instruction_feature"].to(self.args.device).float()
+        # bs*100*1024
+        instruction_feature_rep = instruction_feature.unsqueeze(dim=1).repeat(1, local_image_num, 1).to(self.args.device)
+        # 12800*1*1536
+        attr_input = torch.cat((instruction_feature_rep.reshape(bs * local_image_num, -1), local_image_feature.reshape(bs * local_image_num, -1)), dim=-1).unsqueeze(dim=1)
+        # 12800*512
+        attr_feature = self.attribute_model(attr_input).squeeze(dim=1)
+        # bs*100*512
+        attr_feature = attr_feature.reshape(bs, local_image_num, -1)
+
+        attr_feature = self.attribute_mlp(torch.cat((attr_feature, inputs['crop'][:, :, 512:].to(self.args.device).squeeze(dim=1)), dim=-1))
+        # bs*1024
+
+        global_image_feature = self.global_image_encoder(inputs['image'].to(self.args.device), pre_train=False)
+
+
+        # bs*1*256
+ 
+        # bs*1*1024
+        fusion_instruction = instruction_feature.unsqueeze(dim=1)
+        # fusion_instruction = instruction_feature
+        # bs*1*1024
+        global_image_feature = global_image_feature.unsqueeze(dim=1)
+        # bs*1*512
+        vis_feature = self.fusion_model(attr_feature, fusion_instruction, global_image_feature)
+
+        return vis_feature
+
 
 
 class Agent(nn.Module):
@@ -47,24 +168,6 @@ class Agent(nn.Module):
         action_dis = torch.stack(action_dis)
         return action_dis
 
-    def forward_train(self, inputs, other_inputs, deterministic=False):
-        if self.args.mode == "train_VTN" or self.args.mode == "train_VTN_demand" or self.args.mode == "test_VTN" or self.args.mode == "test_VTN_demand" or self.args.mode == "test_VTN_GPT":
-            features = self.visual_model.forward(inputs)["visual_reps"].reshape(self.args.workers, -1, 3136)
-        elif self.args.mode == "train_ZSON" or self.args.mode == "test_ZSON":
-            features = self.visual_model.forward(inputs).reshape(self.args.workers, -1, self.lstm_input_sz - self.args.action_embedding_dim)
-        else:
-            features = self.visual_model.forward(inputs)
-        prev_action_embed = self.embed_action(other_inputs['prev_action'].to(self.args.device))
-        t_feature = torch.cat((features, prev_action_embed), dim=-1)
-        output, (hx, cx) = self.lstm(t_feature, (other_inputs["prev_hidden_h"].to(self.args.device), other_inputs["prev_hidden_c"].to(self.args.device)))
-        # x = output.reshape([1, self.args.rnn_hidden_state_dim])
-        action_dist = self.action(output)
-        if deterministic:
-            action_out = action_dist.mode()
-        else:
-            action_out = action_dist.sample()
-        value = self.critic_2(F.relu(self.critic_1(output)))
-        return value, action_out, action_dist, hx, cx
 
     def evaluate_actions(self, inputs, other_inputs, masks, action):
         value, action_out, action_dist, hx, cx = self.forward_train(inputs, other_inputs)
@@ -97,12 +200,8 @@ class Agent(nn.Module):
     def forward_batch(self, inputs, other_inputs, masks, pre_train_Q=False):
         num_envs_per_batch = self.args.workers // self.args.num_mini_batch
         seq_len = int(other_inputs['prev_action'].shape[0] / num_envs_per_batch)
-        if self.args.mode == "train_VTN" or self.args.mode == "train_VTN_demand" or self.args.mode == "test_VTN" or self.args.mode == "test_VTN_demand":
-            features = self.visual_model.forward(inputs)["visual_reps"].reshape(-1, 3136)
-        elif self.args.mode == "train_ZSON" or self.args.mode == "test_ZSON":
-            features = self.visual_model.forward(inputs).reshape(-1, self.lstm_input_sz - self.args.action_embedding_dim)
-        else:
-            features = self.visual_model.forward(inputs)
+
+        features = self.visual_model.forward(inputs)
         prev_action_embed = self.embed_action(other_inputs['prev_action'].to(self.args.device)).unsqueeze(dim=1)
         t_feature = torch.cat((features, prev_action_embed), dim=-1).reshape(num_envs_per_batch, seq_len, self.lstm_input_sz)
         seq_len = t_feature.shape[1]
@@ -136,97 +235,7 @@ class Agent(nn.Module):
         value = self.critic_2(F.relu(self.critic_1(outputs))).reshape(seq_len * num_envs_per_batch, -1)
         return value, action_out, action_dist, hx, cx
 
-    def update(self, rollouts, pre_train_Q=False):
-        advantages = rollouts.returns[:-1] - rollouts.value_preds[:-1]
-        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-5)
 
-        value_loss_epoch = 0
-        action_loss_epoch = 0
-        dist_entropy_epoch = 0
-
-        for e in range(self.args.ppo_epoch):
-            data_generator = rollouts.recurrent_generator(advantages, self.args.num_mini_batch)
-
-            for sample in data_generator:
-                rgb_batch, depth_batch, instruction_feature_batch, crop_batch, bbox_batch, logits_batch,\
-                    recurrent_hidden_states_batch, actions_batch, \
-                    value_preds_batch, return_batch, masks_batch, old_action_log_probs_batch, adv_targ, prev_action_log_batch = sample
-                old_action_log_probs_batch = old_action_log_probs_batch.to(self.args.device)
-                adv_targ = adv_targ.to(self.args.device)
-                masks_batch = masks_batch.to(self.args.device)
-                return_batch = return_batch.to(self.args.device)
-                value_preds_batch = value_preds_batch.to(self.args.device)
-                # Reshape to do in a single forward pass for all steps
-                if self.args.mode == "train_VTN" or self.args.mode == "train_VTN_demand":
-                    inputs = {}
-                    inputs['global_feature'] = rgb_batch.clone().detach().to(self.args.device)
-                    inputs['local_feature'] = {}
-                    inputs['local_feature']["features"] = crop_batch.to(self.args.device)
-                    inputs["local_feature"]["bboxes"] = bbox_batch.to(self.args.device)
-                    inputs["local_feature"]["indicator"] = instruction_feature_batch.unsqueeze(dim=1).repeat(1, 100, 1).to(self.args.device)
-                    inputs["local_feature"]["scores"] = logits_batch.to(self.args.device)
-                    other_inputs = {}
-                    other_inputs['prev_action'] = prev_action_log_batch.to(self.args.device)
-                    recurrent_hidden_states_batch = recurrent_hidden_states_batch.reshape(-1, 4, 1024)
-                    other_inputs["prev_hidden_h"] = recurrent_hidden_states_batch[:, :2, :].to(self.args.device)
-                    other_inputs["prev_hidden_c"] = recurrent_hidden_states_batch[:, 2:, :].to(self.args.device)
-                    values, action_log_probs, dist_entropy, _, _ = self.evaluate_batch(inputs, other_inputs, masks_batch, actions_batch)
-                elif self.args.mode == "train_ZSON":
-                    inputs = {}
-                    inputs["images"] = rgb_batch.clone().detach().to(self.args.device)
-                    inputs["depths"] = depth_batch.clone().detach().to(self.args.device)
-                    inputs["semantic_features"] = instruction_feature_batch.to(self.args.device)
-                    other_inputs = {}
-                    other_inputs['prev_action'] = prev_action_log_batch.to(self.args.device)
-                    recurrent_hidden_states_batch = recurrent_hidden_states_batch.reshape(-1, 4, 1024)
-                    other_inputs["prev_hidden_h"] = recurrent_hidden_states_batch[:, :2, :].to(self.args.device)
-                    other_inputs["prev_hidden_c"] = recurrent_hidden_states_batch[:, 2:, :].to(self.args.device)
-                    values, action_log_probs, dist_entropy, _, _ = self.evaluate_batch(inputs, other_inputs, masks_batch, actions_batch)
-                else:
-                    inputs = {}
-                    inputs["rgb"] = rgb_batch.clone().detach().to(self.args.device)
-                    inputs["instruction"] = instruction_feature_batch.clone().detach().to(self.args.device)
-                    inputs['local_feature'] = {}
-                    inputs['local_feature']["features"] = crop_batch.clone().detach().to(self.args.device)
-                    inputs["local_feature"]["bboxes"] = bbox_batch.clone().detach().to(self.args.device)
-                    inputs['local_feature']['logits'] = logits_batch.clone().detach().to(self.args.device)
-                    other_inputs = {}
-                    other_inputs['prev_action'] = prev_action_log_batch.clone().detach()
-                    recurrent_hidden_states_batch = recurrent_hidden_states_batch.reshape(-1, 4, 1024)
-                    other_inputs["prev_hidden_h"] = recurrent_hidden_states_batch[:, :2, :].clone().detach()
-                    other_inputs["prev_hidden_c"] = recurrent_hidden_states_batch[:, 2:, :].clone().detach()
-                    values, action_log_probs, dist_entropy, _, _ = self.evaluate_batch(inputs, other_inputs, masks_batch, actions_batch, pre_train_Q)
-
-                ratio = torch.exp(action_log_probs - old_action_log_probs_batch)
-                surr1 = ratio * adv_targ
-                surr2 = torch.clamp(ratio, 1.0 - self.args.clip_param, 1.0 + self.args.clip_param) * adv_targ
-                action_loss = -torch.min(surr1, surr2).mean()
-
-                if self.use_clipped_value_loss:
-                    value_pred_clipped = value_preds_batch + \
-                        (values - value_preds_batch).clamp(-self.args.clip_param, self.args.clip_param)
-                    value_losses = (values - return_batch).pow(2)
-                    value_losses_clipped = (value_pred_clipped - return_batch).pow(2)
-                    value_loss = 0.5 * torch.max(value_losses, value_losses_clipped).mean()
-                else:
-                    value_loss = 0.5 * (return_batch - values).pow(2).mean()
-
-                self.optimizer.zero_grad()
-                (value_loss * self.args.value_loss_coef + action_loss - dist_entropy * self.args.entropy_coef).backward()
-                nn.utils.clip_grad_norm_(self.parameters(), self.args.max_grad_norm)
-                self.optimizer.step()
-
-                value_loss_epoch += value_loss.item()
-                action_loss_epoch += action_loss.item()
-                dist_entropy_epoch += dist_entropy.item()
-
-        num_updates = self.args.ppo_epoch * self.args.num_mini_batch
-
-        value_loss_epoch /= num_updates
-        action_loss_epoch /= num_updates
-        dist_entropy_epoch /= num_updates
-
-        return value_loss_epoch, action_loss_epoch, dist_entropy_epoch
 
 
 class Flatten(nn.Module):
@@ -235,154 +244,6 @@ class Flatten(nn.Module):
         return x.view(x.size(0), -1)
 
 
-class Policy(nn.Module):
-
-    def __init__(self, obs_shape, action_space, base=None, base_kwargs=None):
-        super(Policy, self).__init__()
-        if base_kwargs is None:
-            base_kwargs = {}
-        if base is None:
-            if len(obs_shape) == 3:
-                base = CNNBase
-            elif len(obs_shape) == 1:
-                base = MLPBase
-            else:
-                raise NotImplementedError
-
-        self.base = base(obs_shape[0], **base_kwargs)
-
-        if action_space.__class__.__name__ == "Discrete":
-            num_outputs = action_space.n
-            self.dist = Categorical(self.base.output_size, num_outputs)
-        elif action_space.__class__.__name__ == "Box":
-            num_outputs = action_space.shape[0]
-            self.dist = DiagGaussian(self.base.output_size, num_outputs)
-        elif action_space.__class__.__name__ == "MultiBinary":
-            num_outputs = action_space.shape[0]
-            self.dist = Bernoulli(self.base.output_size, num_outputs)
-        else:
-            raise NotImplementedError
-
-    @property
-    def is_recurrent(self):
-        return self.base.is_recurrent
-
-    @property
-    def recurrent_hidden_state_size(self):
-        """Size of rnn_hx."""
-        return self.base.recurrent_hidden_state_size
-
-    def forward(self, inputs, rnn_hxs, masks):
-        raise NotImplementedError
-
-    def act(self, inputs, rnn_hxs, masks, deterministic=False):
-        value, actor_features, rnn_hxs = self.base(inputs, rnn_hxs, masks)
-        dist = self.dist(actor_features)
-
-        if deterministic:
-            action = dist.mode()
-        else:
-            action = dist.sample()
-
-        action_log_probs = dist.log_probs(action)
-        dist_entropy = dist.entropy().mean()
-
-        return value, action, action_log_probs, rnn_hxs
-
-    def get_value(self, inputs, rnn_hxs, masks):
-        value, _, _ = self.base(inputs, rnn_hxs, masks)
-        return value
-
-    def evaluate_actions(self, inputs, rnn_hxs, masks, action):
-        value, actor_features, rnn_hxs = self.base(inputs, rnn_hxs, masks)
-        dist = self.dist(actor_features)
-
-        action_log_probs = dist.log_probs(action)
-        dist_entropy = dist.entropy().mean()
-
-        return value, action_log_probs, dist_entropy, rnn_hxs
-
-
-class NNBase(nn.Module):
-
-    def __init__(self, recurrent, recurrent_input_size, hidden_size):
-        super(NNBase, self).__init__()
-
-        self._hidden_size = hidden_size
-        self._recurrent = recurrent
-
-        if recurrent:
-            self.gru = nn.GRU(recurrent_input_size, hidden_size)
-            for name, param in self.gru.named_parameters():
-                if 'bias' in name:
-                    nn.init.constant_(param, 0)
-                elif 'weight' in name:
-                    nn.init.orthogonal_(param)
-
-    @property
-    def is_recurrent(self):
-        return self._recurrent
-
-    @property
-    def recurrent_hidden_state_size(self):
-        if self._recurrent:
-            return self._hidden_size
-        return 1
-
-    @property
-    def output_size(self):
-        return self._hidden_size
-
-    def _forward_gru(self, x, hxs, masks):
-        if x.size(0) == hxs.size(0):
-            x, hxs = self.gru(x.unsqueeze(0), (hxs * masks).unsqueeze(0))
-            x = x.squeeze(0)
-            hxs = hxs.squeeze(0)
-        else:
-            # x is a (T, N, -1) tensor that has been flatten to (T * N, -1)
-            N = hxs.size(0)
-            T = int(x.size(0) / N)
-
-            # unflatten
-            x = x.view(T, N, x.size(1))
-
-            # Same deal with masks
-            masks = masks.view(T, N)
-
-            # Let's figure out which steps in the sequence have a zero for any agent
-            # We will always assume t=0 has a zero in it as that makes the logic cleaner
-            has_zeros = ((masks[1:] == 0.0).any(dim=-1).nonzero().squeeze().cpu())
-
-            # +1 to correct the masks[1:]
-            if has_zeros.dim() == 0:
-                # Deal with scalar
-                has_zeros = [has_zeros.item() + 1]
-            else:
-                has_zeros = (has_zeros + 1).numpy().tolist()
-
-            # add t=0 and t=T to the list
-            has_zeros = [0] + has_zeros + [T]
-
-            hxs = hxs.unsqueeze(0)
-            outputs = []
-            for i in range(len(has_zeros) - 1):
-                # We can now process steps that don't have any zeros in masks together!
-                # This is much faster
-                start_idx = has_zeros[i]
-                end_idx = has_zeros[i + 1]
-
-                rnn_scores, hxs = self.gru(x[start_idx:end_idx], hxs * masks[start_idx].view(1, -1, 1))
-
-                outputs.append(rnn_scores)
-
-            # assert len(outputs) == T
-            # x is a (T, N, -1) tensor
-            x = torch.cat(outputs, dim=0)
-            # flatten
-            x = x.view(T * N, -1)
-            hxs = hxs.squeeze(0)
-
-        return x, hxs
 
 
 if __name__ == "__main__":
