@@ -1,10 +1,67 @@
 import numpy as np
-from a2c_ppo_acktr.utils import init
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from model import model, attribute_model
+from model import attribute_model
 from model import models_mae
+from torchvision import transforms
+from model.attribute_model import attention_attribute_model
+
+class Categorical(nn.Module):
+    def __init__(self, num_inputs, num_outputs):
+        super(Categorical, self).__init__()
+        def init(module, weight_init, bias_init, gain=1):
+            weight_init(module.weight.data, gain=gain)
+            bias_init(module.bias.data)
+            return module
+        init_ = lambda m: init(
+            m,
+            nn.init.orthogonal_,
+            lambda x: nn.init.constant_(x, 0),
+            gain=0.01)
+
+        self.linear = init_(nn.Linear(num_inputs, num_outputs))
+
+    def forward(self, x):
+        x = self.linear(x)
+        return FixedCategorical(logits=x)
+    
+class FixedCategorical(torch.distributions.Categorical):
+    def sample(self):
+        return super().sample().unsqueeze(-1)
+
+    def log_probs(self, actions):
+        return (
+            super()
+            .log_prob(actions.squeeze(-1))
+            .view(actions.size(0), -1)
+            .sum(-1)
+            .unsqueeze(-1)
+        )
+
+    def mode(self):
+        return self.probs.argmax(dim=-1, keepdim=True)
+    
+class fusion_model(nn.Module):
+
+    def __init__(self, args, attribute_feature_dim=512, instruction_feature_dim=1024, global_image_feature_dim=1024, depth_dim=0):
+        super().__init__()
+        self.args = args
+        self.proj = nn.Linear(instruction_feature_dim + global_image_feature_dim+depth_dim, attribute_feature_dim)
+        self.encoder = nn.TransformerEncoder(nn.TransformerEncoderLayer(d_model=attribute_feature_dim, nhead=8, batch_first=True, dropout=0.1), num_layers=self.args.fusion_encoder_layer_num)
+        self.decoder = nn.TransformerDecoder(nn.TransformerDecoderLayer(d_model=attribute_feature_dim, nhead=8, batch_first=True, dropout=0.1), num_layers=self.args.fusion_decoder_layer_num)
+        self._reset_parameters()
+
+    def _reset_parameters(self):
+        for p in self.parameters():
+            if p.dim() > 1:
+                nn.init.xavier_uniform_(p)
+
+    def forward(self, attribute_feature, instruction_feature, global_image_feature, depth_image=None):
+        kv = self.encoder(attribute_feature)
+        query = self.proj(torch.cat((instruction_feature, global_image_feature), dim=-1))
+        y = self.decoder(query, kv)
+        return y
 
 class BaseModel(torch.nn.Module):
 
@@ -140,6 +197,7 @@ class Agent(nn.Module):
         self.args = args
         self.visual_model = BaseModel(args)
         self.lstm_layer_num = 2
+        self.action_space = 6
         self.lstm_input_sz = args.attribute_feature_dim + args.action_embedding_dim
         self.embed_action = nn.Linear(self.action_space, args.action_embedding_dim)
         self.lstm = nn.LSTM(self.lstm_input_sz, args.rnn_hidden_state_dim, self.lstm_layer_num, batch_first=True)

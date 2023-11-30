@@ -17,6 +17,12 @@ def parse_arguments():
     parser.add_argument('--seed', type=int, default=42, help='random seed')
     parser.add_argument('--top_k', type=int, default=16, help='top k region')
     parser.add_argument('--epoch', type=int, default=100, help="max steps in an episode")
+    parser.add_argument('--input_size', default=224, type=int, help='images input size')
+    parser.add_argument('--rnn_hidden_state_dim', default=1024, type=int, help='images input size')
+    parser.add_argument('--action_embedding_dim', default=16, type=int, help='images input size')
+    parser.add_argument('--lr', type=float, default=1e-5)
+    parser.add_argument('--pretrain_lr_drop', default=10, type=int)
+    parser.add_argument('--max_norm', default=0.1, type=float, help='images input size')
     
     # contrastive learning args
     parser.add_argument('--mini_batch_size', type=int, default=64, help='mini batch size')
@@ -29,6 +35,10 @@ def parse_arguments():
     parser.add_argument('--contrastive_lr', type=float, default=1e-5)
     parser.add_argument('--attention_layer_num', default=6, type=int)
     parser.add_argument('--attribute_feature_dim', default=512, type=int, help='attribute_feature_dim')
+    
+    # fusion_model
+    parser.add_argument('--fusion_encoder_layer_num', default=6, type=int, help='images input size')
+    parser.add_argument('--fusion_decoder_layer_num', default=6, type=int, help='images input size')
     
     args = parser.parse_args()
 
