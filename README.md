@@ -8,10 +8,10 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 - [x] README
 - [x] Instruction Dataset
 - [x] Trajectory Dataset
-- [ ] Pre-generated Dataset
-- [ ] Utils Code
+- [x] Pre-generated Dataset
+- [x] Utils Code
+- [x] Training
 - [ ] Testing
-- [ ] Training
 
 ## Warning: I am currently refactoring my code. Although all code committed to the repository has been tested, there may still be some minor issues.
 
@@ -22,7 +22,7 @@ We propose a demand-driven navigation task, which requires an agent to find obje
 
 ## Materials Download (Under Updating)
 
-For dataset and pretrained models, the download link is [here](https://drive.google.com/drive/folders/1iR-zf3SHLMhA05IQXsQGUfyfB-8spFC-?usp=sharing).
+For dataset and pretrained models, the download link is [Googledrive](https://drive.google.com/drive/folders/1iR-zf3SHLMhA05IQXsQGUfyfB-8spFC-?usp=sharing) and [Onedrive](https://1drv.ms/f/s!AqFkOI28GusshUIjthziadaYcrD7?e=Pwdl1l).
 
 For Chinese, we provide [百度网盘](https://pan.baidu.com/s/1ghLdUjp5AMCTqpLOM1byVw?pwd=1rid).
 
@@ -62,12 +62,21 @@ python generate_pre_data.py --mode=merge_pre_crop_json
 
 ### Training
 
-To train the Attribute Module, Prepare the following files in the [dataset](./dataset/): `instruction_{train,val}_check.json`, `LGO_features.json`, `instruction_bert_features_check.json`
+To train the Attribute Module, prepare the following files in the [dataset](./dataset/): `instruction_{train,val}_check.json`, `LGO_features.json`, `instruction_bert_features_check.json`
 
 Then run:
 
 ```
 python train_attribute_features.py --epoch=5000
+```
+Finally, select the model with the lowest loss on the validation set, named `attribute_model2.pt`.
+
+------
+To train the navigation policy, prepare the following files in the [dataset](./dataset/): `bc_train_{0,1,2,3,4}_pre.h5`, `bc_{train,val}_check.json`, in the [pretrained_model](./pretrained_model/): `attribute_model2.pt`, `mae_pretrain_model.pth`
+
+Then run
+```
+python main.py --epoch=30 --mode=train_Ours  --workers=32 --dataset_mode=train --device=cuda:0
 ```
 
 
