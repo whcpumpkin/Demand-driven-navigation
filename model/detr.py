@@ -20,16 +20,12 @@ class DETRModel(nn.Module):
         self.num_queries = num_queries
 
         # self.model = torch.hub.load('facebookresearch/detr', 'detr_resnet50', pretrained=False)
-        self.model = torch.hub.load('/home/whc/.cache/torch/hub/facebookresearch_detr_main', 'detr_resnet50', pretrained=False, source="local")
-        # self.model=DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50")
-        # checkpoint = torch.load(
-        #     "./pretrained_model/detr-r50-e632da11.pth", map_location="cpu")
-        # self.model.load_state_dict(checkpoint["model"])
+        self.model = torch.hub.load('./model/facebookresearch_detr_main', 'detr_resnet50', pretrained=False, source="local")
        
         self.in_features = self.model.class_embed.in_features
 
         self.model.class_embed = nn.Linear(in_features=self.in_features, out_features=self.num_classes)
         self.model.num_queries = self.num_queries
 
-    def forward(self, images):
-        return self.model(images)
+    def forward(self, images,return_feature=False):
+        return self.model(images,return_feature=return_feature)

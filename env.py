@@ -32,7 +32,6 @@ import torchvision.transforms as transforms
 import albumentations as A
 import cv2
 import time
-from memory_profiler import profile
 
 import warnings
 
@@ -757,13 +756,13 @@ class Human_Demand_Env():
             if ins not in self.instruction_features.keys():
                 print("{} not in instruction_features".format(ins))
         # del self.local_image_encoder
-        if "Ours" in self.mode:
+        if "DDN" in self.mode:
             self.detr = DETRModel(2, 100)
             self.detr.load_state_dict(torch.load("./pretrained_model/detr_new_18.pth", map_location="cpu"))
             self.detr = self.detr.to(args.device).eval()
             self.transform_detr = get_valid_transforms(h=300, w=300)
-        if self.args.collect_data:
-            self.collect_data()
+        # if self.args.collect_data:
+        #     self.collect_data()
         # self.w2v_model = models.word2vec.Word2Vec.load('wiki.model')
         # self.object2idx = self.load_object2idx()
 
@@ -788,9 +787,9 @@ class Human_Demand_Env():
         return answer
 
     def load_obj_house_idx(self):
-        with open(self.args.path2dataset + "/" + "obj_house_idx_{}".format(self.args.dataset_mode) + ".json", 'r', encoding='utf8') as fp:
+        with open(self.args.path2dataset + "/env/" + "obj_house_idx_{}".format(self.args.dataset_mode) + ".json", 'r', encoding='utf8') as fp:
             obj_house_idx = json.load(fp)
-        with open(self.args.path2dataset + "/" + "house_idx_obj_{}".format(self.args.dataset_mode) + ".json", 'r', encoding='utf8') as fp:
+        with open(self.args.path2dataset + "/env/" + "house_idx_obj_{}".format(self.args.dataset_mode) + ".json", 'r', encoding='utf8') as fp:
             house_idx_obj = json.load(fp)
         return obj_house_idx, house_idx_obj
 
@@ -813,7 +812,7 @@ class Human_Demand_Env():
         data = {}
         dic = {"train": 10000, "val": 1000, "test": 1000}
         for split, size in [("train", 10_000), ("val", 1_000), ("test", 1_000)]:
-            with gzip.open(f"dataset/{split}.jsonl.gz", "r") as f:
+            with gzip.open(f"dataset/env/{split}.jsonl.gz", "r") as f:
                 houses = [line for line in tqdm(f, total=size, desc=f"Loading {split}")]
             data[split] = LazyJsonDataset(data=houses, dataset="procthor-dataset", split=split)
         return prior.DatasetDict(**data)
@@ -913,17 +912,16 @@ class Human_Demand_Env():
         self.current_path = []
         self.current_path.append(deepcopy(event.metadata['agent']['position']))
 
-        if "Ours" in self.args.mode:
+        if "DDN" in self.args.mode:
             with torch.no_grad():
                 detr_image = self.transform_detr(image=event.frame.copy() / 255.0)["image"].to(torch.float32).to(self.args.device)
-                detr_output, hs = self.detr([detr_image])
+                detr_output = self.detr([detr_image])
             prob = detr_output['pred_logits'].softmax(dim=-1).detach().cpu().numpy()[:, :, 0]
             top_k_idx = torch.tensor(np.argsort(prob, axis=-1)[:, -self.args.top_k:].copy()).to(self.args.device)
             bbox_top_k = torch.index_select(detr_output['pred_boxes'][0], dim=0, index=top_k_idx[0])
             logits_top_k = torch.index_select(detr_output['pred_logits'][0], dim=0, index=top_k_idx[0])
             local_feature = self.crop_from_bounding_box(event.frame, detr_output['pred_boxes'][0], top_k_idx[0])
             del detr_output
-            del hs
             del detr_image
             event.local_feature = {}
             event.local_feature["feature"] = local_feature.cpu().detach().clone()
@@ -981,17 +979,16 @@ class Human_Demand_Env():
         info["instruction_features"] = torch.tensor(self.instruction_features[self.instruction][1][0][0])
         start = time.time()
         self.current_path.append(deepcopy(event.metadata['agent']['position']))
-        if "Ours" in self.args.mode:
+        if "DDN" in self.args.mode:
             with torch.no_grad():
                 detr_image = self.transform_detr(image=event.frame.copy() / 255.0)["image"].to(torch.float32).to(self.args.device)
-                detr_output, hs = self.detr([detr_image])
+                detr_output = self.detr([detr_image])
             prob = detr_output['pred_logits'].softmax(dim=-1).detach().cpu().numpy()[:, :, 0]
             top_k_idx = torch.tensor(np.argsort(prob, axis=-1)[:, -self.args.top_k:]).to(self.args.device)
             bbox_top_k = torch.index_select(detr_output['pred_boxes'][0], dim=0, index=top_k_idx[0])
             logits_top_k = torch.index_select(detr_output['pred_logits'][0], dim=0, index=top_k_idx[0])
             local_feature = self.crop_from_bounding_box(event.frame, detr_output['pred_boxes'][0], top_k_idx[0])
             del detr_output
-            del hs
             del detr_image
             event.local_feature = {}
             event.local_feature["feature"] = local_feature.cpu().detach().clone()

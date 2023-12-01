@@ -114,7 +114,7 @@ class BaseModel(torch.nn.Module):
             self.args.device).squeeze(dim=1), inputs['local_feature']['logits'].to(self.args.device).squeeze(dim=1)), dim=-1))
         # bs*1024
 
-        global_image_feature = self.global_image_encoder(inputs['image'].to(self.args.device), pre_train=False)
+        global_image_feature = self.global_image_encoder(inputs['rgb'].to(self.args.device), pre_train=False)
         # bs*1*256
         # bs*1*1024
         fusion_instruction = instruction_feature.unsqueeze(dim=1)
@@ -226,7 +226,21 @@ class Agent(nn.Module):
         action_dis = torch.stack(action_dis)
         return action_dis
 
-
+    def forward_train(self, inputs, other_inputs, deterministic=False):
+        features = self.visual_model.forward(inputs)
+        prev_action_embed = self.embed_action(other_inputs['prev_action'].to(self.args.device))
+        t_feature = torch.cat((features, prev_action_embed), dim=-1)
+        output, (hx, cx) = self.lstm(t_feature, (other_inputs["prev_hidden_h"].to(self.args.device), other_inputs["prev_hidden_c"].to(self.args.device)))
+        # x = output.reshape([1, self.args.rnn_hidden_state_dim])
+        action_dist = self.action(output)
+        if deterministic:
+            action_out = action_dist.mode()
+        else:
+            action_out = action_dist.sample()
+        # value = self.critic_2(F.relu(self.critic_1(output)))
+        value=None
+        return value, action_out, action_dist, hx, cx
+    
     def evaluate_actions(self, inputs, other_inputs, masks, action):
         value, action_out, action_dist, hx, cx = self.forward_train(inputs, other_inputs)
 

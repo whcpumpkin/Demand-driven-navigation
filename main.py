@@ -64,7 +64,7 @@ def save_checkpoint(args, epoch, model, optimizer):
     return
 
 
-def train_Ours(args):
+def train_DDN(args):
     writer = SummaryWriter(args.path2saved_checkpoints + "/runs")
     f = open(args.path2saved_checkpoints + "/log.txt", "w")
     device = args.device
@@ -111,20 +111,9 @@ def train_Ours(args):
 
             inputs["image"] = image.float()
             inputs["image_PIL"]=image_PIL
-            if "wo_BERT" in args.mode:
-                tok = torch.FloatTensor(agent.visual_model.tokenizer(instruction_feature[0])['input_ids'][0]).to(device).unsqueeze(dim=1)
-                instruction_feature = agent.visual_model.instruction_encoder(tok).unsqueeze(dim=0).mean(dim=1)
-                inputs["instruction_feature"] = instruction_feature.repeat(seq_len, 1)
-            elif "wo_MAE" in args.mode or "resnet" in args.mode:
-                encoded_input = BERT_tokenizer(instruction_feature[0], return_tensors='pt')
-                for key in encoded_input.keys():
-                    encoded_input[key] = encoded_input[key].to(device)
-                output = BERT_model(**encoded_input)
-                instruction_feature=torch.tensor(output["last_hidden_state"][0,0,:]).detach()
-                inputs["instruction_feature"] = instruction_feature.repeat(seq_len, 1)
-            else:
-                instruction_feature = torch.stack(instruction_feature).to(device)
-                inputs["instruction_feature"] = instruction_feature.permute(1, 0).repeat(seq_len, 1)
+
+            instruction_feature = torch.stack(instruction_feature).to(device)
+            inputs["instruction_feature"] = instruction_feature.permute(1, 0).repeat(seq_len, 1)
             other_inputs = {}
             other_inputs['prev_action'] = (torch.ones((1, 1, 6)).to(args.device)) * np.log(1 / 6)
             other_inputs["prev_hidden_h"] = torch.zeros((agent.lstm_layer_num, 1, args.rnn_hidden_state_dim)).to(args.device)
@@ -160,8 +149,8 @@ def main(args):
     if not os.path.exists(args.path2saved_checkpoints):
         os.makedirs(args.path2saved_checkpoints)
     print('\n Training started from: {}'.format(time.strftime('%Y-%m-%d %H-%M-%S', time.localtime(time.time()))))
-    if args.mode == "train_Ours":
-        train_Ours(args)
+    if args.mode == "train_DDN":
+        train_DDN(args)
 
     
 
