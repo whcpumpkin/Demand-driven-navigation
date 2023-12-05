@@ -13,7 +13,7 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 - [x] Training
 - [x] Testing
 
-## Warning: I am currently refactoring my code. Although all code committed to the repository has been tested, there may still be some minor issues. More comments will be continuously added to the code to improve its readability.
+## Warning: I am currently refactoring my code. Although all code committed to the repository has been tested, there may still be some minor issues. More comments will be continuously added to the code to improve its readability. Feel free to ask any questions.
 
 
 ## Overview
@@ -22,7 +22,7 @@ We propose a demand-driven navigation task, which requires an agent to find obje
 
 ## Materials Download (Under Updating)
 
-For dataset and pretrained models, the download link is [Googledrive](https://drive.google.com/drive/folders/1iR-zf3SHLMhA05IQXsQGUfyfB-8spFC-?usp=sharing) and [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/1800012939_pku_edu_cn/EpUlnqhbNflHvDbA-fG6h94BEsfP9KE6FaWDFKe3g3xXMQ?e=g1DabS)(recommend).
+For all dataset and pretrained models, the download link is [Googledrive](https://drive.google.com/drive/folders/1iR-zf3SHLMhA05IQXsQGUfyfB-8spFC-?usp=sharing) and [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/1800012939_pku_edu_cn/EpUlnqhbNflHvDbA-fG6h94BEsfP9KE6FaWDFKe3g3xXMQ?e=g1DabS)(recommend).
 
 For Chinese, we provide [百度网盘](https://pan.baidu.com/s/1ghLdUjp5AMCTqpLOM1byVw?pwd=1rid).
 
@@ -60,6 +60,9 @@ python generate_pre_data.py --mode=merge_pre_crop_json
 
 ```
 
+We have provided the pre-generated dataset in the `Materials Download`.
+
+
 ### Training
 
 To train the Attribute Module, prepare the following files in the [dataset](./dataset/): `instruction_{train,val}_check.json`, `LGO_features.json`, `instruction_bert_features_check.json`
@@ -92,10 +95,14 @@ Then we select the model with the highest accuracy on the validation set, assumi
 python eval.py --mode=test_DDN --eval_path=$path_to_saved_model$ --dataset_mode=$train,test$ --seen_instruction=$0,1$  --device=cuda:0 --epoch=500 --eval_ckpt=$idx$
 ```
 
-For the parameter `dataset_mode`, 'train' represents 'seen_scene', while 'test' represents 'unseen_scene'.
+For the parameter `dataset_mode`, 'train' represents 'seen_scene', while 'test' represents 'unseen_scene'. Just choose one of them during the test.
 
-For the parameter `seen_instruction`, '1' represents 'seen_instruction', while '0' represents 'unseen_scene'.
+For the parameter `seen_instruction`, '1' represents 'seen_instruction', while '0' represents 'unseen_scene'. Just choose one of them during the test.
 
+Note: if you run AI2Thor in a headless machine, `xvfb` is highly recommended. Here is an example.
+```
+xvfb-run -a python eval.py --mode=test_DDN --eval_path=$path_to_saved_model$ --dataset_mode=train --seen_instruction=1  --device=cuda:0 --epoch=500 --eval_ckpt=15
+```
 
 ## Contact
 If you have any suggestion or questions, please feel free to contact us:
