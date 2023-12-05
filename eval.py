@@ -36,6 +36,78 @@ import math
 import json
 from transformers import BertTokenizer, BertModel
 
+
+
+def eval_DDN(args):
+    start_time_str = time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time()))
+    writer = SummaryWriter(args.eval_path + "/runs")
+    f = open(args.eval_path + "/eval_{}_{}.txt".format(args.dataset_mode, start_time_str), "a")
+    device = args.device
+    agent = Agent(args)
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    random.seed(args.seed)
+    listFiles = sorted(list(os.listdir(args.eval_path)))[:-1]
+    list_dict = {}
+    criterion = torch.nn.CrossEntropyLoss()
+    criterion.to(device)
+    for name in listFiles:
+        if "checkpoint" not in name:
+            continue
+        ckpt_idx = eval(name.split("_")[-1].split(".")[0])
+        list_dict[ckpt_idx] = name
+    list_ckpt = sorted(list(list_dict.keys()))
+    dataset_val = Traj_dataset(args, args.dataset_mode)
+    sampler_val = torch.utils.data.SequentialSampler(dataset_val)
+    batch_sampler_val = torch.utils.data.BatchSampler(sampler_val, 1, drop_last=False)
+    data_loader_val = DataLoader(dataset_val, batch_sampler=batch_sampler_val, num_workers=args.workers)
+    for model_ckpt in list_ckpt:
+        if args.eval_ckpt>-1:
+            model_path = os.path.join(args.eval_path, list_dict[args.eval_ckpt])
+            ckpt_idx = args.eval_ckpt
+        else:
+            model_path = os.path.join(args.eval_path, list_dict[model_ckpt])
+            ckpt_idx = model_ckpt
+
+        agent = agent.to("cpu")
+        model_dict = torch.load(model_path, map_location=torch.device('cpu'))
+        agent.load_state_dict(model_dict["model_state_dict"])
+        agent = agent.to(args.device)
+        agent.eval()
+        total = 0
+        correct = 0
+        for i, (image,image_PIL, bbox, object_name, instruction_feature, start_position, start_rotation, start_horizon, action, seq_len, crop_feature) in tqdm(enumerate(data_loader_val), total=data_loader_val.__len__()):
+            image = torch.cat(image).to(device)
+            # instruction_feature = torch.stack(instruction_feature).to(device)
+            inputs = {}
+            inputs["crop"] = torch.stack(crop_feature).to(device).squeeze(dim=1).float()
+
+            inputs["image"] = image.float()
+            inputs["image_PIL"]=image_PIL
+
+            instruction_feature = torch.stack(instruction_feature).to(device)
+            inputs["instruction_feature"] = instruction_feature.permute(1, 0).repeat(seq_len, 1)
+            other_inputs = {}
+            other_inputs['prev_action'] = (torch.ones((1, 1, 6)).to(args.device)) * np.log(1 / 6)
+            other_inputs["prev_hidden_h"] = torch.zeros((agent.lstm_layer_num, 1, args.rnn_hidden_state_dim)).to(args.device)
+            other_inputs["prev_hidden_c"] = torch.zeros((agent.lstm_layer_num, 1, args.rnn_hidden_state_dim)).to(args.device)
+            outputs = agent.forward_pre(inputs, other_inputs).squeeze(dim=1).squeeze(dim=1)
+            action = torch.stack(action).squeeze(dim=1).to(device)
+            losses = criterion(outputs, action)
+            _, predicted = torch.max(outputs, dim=1)
+            total += action.size(0)
+            correct += (predicted == action).sum().item()
+        print("-------------{}----------------".format(ckpt_idx))
+        print('ckpt_idx: {:4d}   accuracy: {}'.format(ckpt_idx, correct / total))
+        print("-------------{}----------------".format(ckpt_idx))
+        f.write('ckpt_idx: {:4d}   accuracy: {} \n'.format(ckpt_idx, correct / total))
+        writer.add_scalar('val/pretrain_accuracy', correct / total, ckpt_idx)
+        # writer.add_scalar('val/pretrain_loss', total_loss, ckpt_idx)
+        if args.eval_ckpt>-1:
+            break
+
+
+
 @torch.no_grad()
 def test_DDN(args):
 
@@ -189,3 +261,5 @@ if __name__ == '__main__':
     args.path2saved_checkpoints = args.path2saved_checkpoints + "/" + args.mode + "/" + start_time_str   
     if args.mode=="test_DDN":
         test_DDN(args)
+    if args.mode=="eval_DDN":
+        eval_DDN(args)

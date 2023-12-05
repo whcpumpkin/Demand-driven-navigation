@@ -11,7 +11,7 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 - [x] Pre-generated Dataset
 - [x] Utils Code
 - [x] Training
-- [ ] Testing
+- [x] Testing
 
 ## Warning: I am currently refactoring my code. Although all code committed to the repository has been tested, there may still be some minor issues. More comments will be continuously added to the code to improve its readability.
 
@@ -78,6 +78,23 @@ Then run
 ```
 python main.py --epoch=30 --mode=train_DDN  --workers=32 --dataset_mode=train --device=cuda:0
 ```
+
+
+### Testing
+
+First, we need to select the model using validation set. 
+```
+python eval.py --mode=eval_DDN --eval_path=$path_to_saved_model$ --dataset_mode=val  --device=cuda:0 --workers=32
+```
+Then we select the model with the highest accuracy on the validation set, assuming its index is $idx$.
+
+```
+python eval.py --mode=test_DDN --eval_path=$path_to_saved_model$ --dataset_mode=$train,test$ --seen_instruction=$0,1$  --device=cuda:0 --epoch=500 --eval_ckpt=$idx$
+```
+
+For the parameter `dataset_mode`, 'train' represents 'seen_scene', while 'test' represents 'unseen_scene'.
+
+For the parameter `seen_instruction`, '1' represents 'seen_instruction', while '0' represents 'unseen_scene'.
 
 
 ## Contact
