@@ -65,6 +65,8 @@ We have provided the pre-generated dataset in the `Materials Download`.
 
 ### Training
 
+#### Attribute Module
+
 To train the Attribute Module, prepare the following files in the [dataset](./dataset/): `instruction_{train,val}_check.json`, `LGO_features.json`, `instruction_bert_features_check.json`
 
 Then run:
@@ -74,7 +76,8 @@ python train_attribute_features.py --epoch=5000
 ```
 Finally, select the model with the lowest loss on the validation set, named `attribute_model2.pt`.
 
-------
+#### Navigation Policy
+
 To train the navigation policy, prepare the following files in the [dataset](./dataset/): `bc_train_{0,1,2,3,4}_pre.h5`, `bc_{train,val}_check.json`, in the [pretrained_model](./pretrained_model/): `attribute_model2.pt`, `mae_pretrain_model.pth`
 
 Then run
@@ -85,11 +88,15 @@ python main.py --epoch=30 --mode=train_DDN  --workers=32 --dataset_mode=train --
 
 ### Testing
 
+#### Model Selection
+
 First, we need to select the model using validation set. 
 ```
 python eval.py --mode=eval_DDN --eval_path=$path_to_saved_model$ --dataset_mode=val  --device=cuda:0 --workers=32
 ```
 Then we select the model with the highest accuracy on the validation set, assuming its index is $idx$.
+
+#### Navigation Policy Testing
 
 ```
 python eval.py --mode=test_DDN --eval_path=$path_to_saved_model$ --dataset_mode=$train,test$ --seen_instruction=$0,1$  --device=cuda:0 --epoch=500 --eval_ckpt=$idx$
