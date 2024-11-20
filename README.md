@@ -5,7 +5,7 @@
 This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven Navigation](https://arxiv.org/abs/2309.08138)
 
 ## News
-An extended version of DDN, [Multi-Object Demand-driven Navigation](https://sites.google.com/view/moddn) has been received as a poster by NeurIPS2024.
+An extended version of DDN, [Multi-Object Demand-driven Navigation](https://sites.google.com/view/moddn) has been accepted as a poster by NeurIPS2024.
 
 ## TODOs (Under Development):
 - [x] README
@@ -19,7 +19,8 @@ An extended version of DDN, [Multi-Object Demand-driven Navigation](https://site
 ## Graphic Memory Optimization
 update on 2024.11.21:
 Someone in issue mentioned if it is possible to optimize the graphics memory consumption making it possible to train with 24G of graphics memory. I have made some optimizations to the code, please follow the instructions below.
-WARNING: For some personal reasons, I did not try to run this code, just made similar migration changes from my other projects. But I can provide an explanation of the code.
+
+**WARNING**: For some personal reasons, I did not try to run this code, just made similar migration changes from my other projects. But I can provide an explanation of the code.
 ```
 python main.py --epoch=30 --mode=train_DDN_Split --patch_size=25  --workers=32 --dataset_mode=train --device=cuda:0
 ```
