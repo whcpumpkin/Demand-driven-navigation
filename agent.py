@@ -7,47 +7,44 @@ from model import models_mae
 from torchvision import transforms
 from model.attribute_model import attention_attribute_model
 
+
 class Categorical(nn.Module):
+
     def __init__(self, num_inputs, num_outputs):
         super(Categorical, self).__init__()
+
         def init(module, weight_init, bias_init, gain=1):
             weight_init(module.weight.data, gain=gain)
             bias_init(module.bias.data)
             return module
-        init_ = lambda m: init(
-            m,
-            nn.init.orthogonal_,
-            lambda x: nn.init.constant_(x, 0),
-            gain=0.01)
+
+        init_ = lambda m: init(m, nn.init.orthogonal_, lambda x: nn.init.constant_(x, 0), gain=0.01)
 
         self.linear = init_(nn.Linear(num_inputs, num_outputs))
 
     def forward(self, x):
         x = self.linear(x)
         return FixedCategorical(logits=x)
-    
+
+
 class FixedCategorical(torch.distributions.Categorical):
+
     def sample(self):
         return super().sample().unsqueeze(-1)
 
     def log_probs(self, actions):
-        return (
-            super()
-            .log_prob(actions.squeeze(-1))
-            .view(actions.size(0), -1)
-            .sum(-1)
-            .unsqueeze(-1)
-        )
+        return (super().log_prob(actions.squeeze(-1)).view(actions.size(0), -1).sum(-1).unsqueeze(-1))
 
     def mode(self):
         return self.probs.argmax(dim=-1, keepdim=True)
-    
+
+
 class fusion_model(nn.Module):
 
     def __init__(self, args, attribute_feature_dim=512, instruction_feature_dim=1024, global_image_feature_dim=1024, depth_dim=0):
         super().__init__()
         self.args = args
-        self.proj = nn.Linear(instruction_feature_dim + global_image_feature_dim+depth_dim, attribute_feature_dim)
+        self.proj = nn.Linear(instruction_feature_dim + global_image_feature_dim + depth_dim, attribute_feature_dim)
         self.encoder = nn.TransformerEncoder(nn.TransformerEncoderLayer(d_model=attribute_feature_dim, nhead=8, batch_first=True, dropout=0.1), num_layers=self.args.fusion_encoder_layer_num)
         self.decoder = nn.TransformerDecoder(nn.TransformerDecoderLayer(d_model=attribute_feature_dim, nhead=8, batch_first=True, dropout=0.1), num_layers=self.args.fusion_decoder_layer_num)
         self._reset_parameters()
@@ -63,6 +60,7 @@ class fusion_model(nn.Module):
         y = self.decoder(query, kv)
         return y
 
+
 class BaseModel(torch.nn.Module):
 
     def __init__(self, args, instruction_feature_dim=1024, global_image_feature_dim=1024):
@@ -74,10 +72,10 @@ class BaseModel(torch.nn.Module):
         checkpoint = torch.load("./pretrained_model/mae_pretrain_model.pth", map_location='cpu')
         self.global_image_encoder.load_state_dict(checkpoint['model'])
         self.global_image_encoder = self.global_image_encoder.to(args.device)
-        self.transform_global = transforms.Compose([transforms.ToPILImage(), transforms.Resize(args.input_size, interpolation=3), transforms.CenterCrop(224),
-                                                transforms.ToTensor(), transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
-
-
+        self.transform_global = transforms.Compose(
+            [transforms.ToPILImage(), transforms.Resize(args.input_size, interpolation=3),
+             transforms.CenterCrop(224), transforms.ToTensor(),
+             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
 
         self.attribute_model = attention_attribute_model(args)
 
@@ -85,8 +83,6 @@ class BaseModel(torch.nn.Module):
         self.attribute_model.load_state_dict(attribute_model_ckpt['model_state_dict'])
         self.attribute_model = self.attribute_model.to(self.args.device)
         self.attribute_mlp = nn.Linear(args.attribute_feature_dim + 6, args.attribute_feature_dim).to(self.args.device)
-            
-
 
         # --------fusion model--------pretrained in supervised learning----------
         self.fusion_model = fusion_model(args, attribute_feature_dim=args.attribute_feature_dim, depth_dim=0).to(self.args.device)
@@ -103,15 +99,14 @@ class BaseModel(torch.nn.Module):
         # bs*100*1024
         instruction_feature_rep = instruction_feature.unsqueeze(dim=1).repeat(1, local_image_num, 1).to(self.args.device)
         # 12800*1*1536
-        
+
         attr_input = torch.cat((instruction_feature_rep.reshape(bs * local_image_num, -1), local_image_feature.reshape(bs * local_image_num, -1)), dim=-1).unsqueeze(dim=1)
-            # 12800*512
+        # 12800*512
         attr_feature = self.attribute_model(attr_input).squeeze(dim=1)
         # bs*100*512
         attr_feature = attr_feature.reshape(bs, local_image_num, -1)
 
-        attr_feature = self.attribute_mlp(torch.cat((attr_feature, inputs['local_feature']['bboxes'].to(
-            self.args.device).squeeze(dim=1), inputs['local_feature']['logits'].to(self.args.device).squeeze(dim=1)), dim=-1))
+        attr_feature = self.attribute_mlp(torch.cat((attr_feature, inputs['local_feature']['bboxes'].to(self.args.device).squeeze(dim=1), inputs['local_feature']['logits'].to(self.args.device).squeeze(dim=1)), dim=-1))
         # bs*1024
 
         global_image_feature = self.global_image_encoder(inputs['rgb'].to(self.args.device), pre_train=False)
@@ -175,9 +170,8 @@ class BaseModel(torch.nn.Module):
 
         global_image_feature = self.global_image_encoder(inputs['image'].to(self.args.device), pre_train=False)
 
-
         # bs*1*256
- 
+
         # bs*1*1024
         fusion_instruction = instruction_feature.unsqueeze(dim=1)
         # fusion_instruction = instruction_feature
@@ -187,7 +181,6 @@ class BaseModel(torch.nn.Module):
         vis_feature = self.fusion_model(attr_feature, fusion_instruction, global_image_feature)
 
         return vis_feature
-
 
 
 class Agent(nn.Module):
@@ -226,6 +219,22 @@ class Agent(nn.Module):
         action_dis = torch.stack(action_dis)
         return action_dis
 
+    def forward_pre_split(self, inputs, other_inputs=None):
+        features = self.visual_model.forward_pre(inputs).squeeze(dim=1)
+        seq_len = features.shape[0]
+        prev_action_embed = self.embed_action(other_inputs['prev_action'].to(self.args.device))
+        hx = other_inputs["prev_hidden_h"].to(self.args.device).contiguous()
+        cx = other_inputs["prev_hidden_c"].to(self.args.device).contiguous()
+        action_dis = []
+        for i in range(seq_len):
+            t_feature = torch.cat((features[i].unsqueeze(dim=0).unsqueeze(dim=0), prev_action_embed), dim=-1)
+            output, (hx, cx) = self.lstm(t_feature.contiguous(), (hx, cx))
+            action_out = self.action(output)
+            action_dis.append(action_out.logits)
+            prev_action_embed = self.embed_action(action_out.logits)
+        action_dis = torch.stack(action_dis)
+        return action_dis, hx, cx
+
     def forward_train(self, inputs, other_inputs, deterministic=False):
         features = self.visual_model.forward(inputs)
         prev_action_embed = self.embed_action(other_inputs['prev_action'].to(self.args.device))
@@ -238,9 +247,9 @@ class Agent(nn.Module):
         else:
             action_out = action_dist.sample()
         # value = self.critic_2(F.relu(self.critic_1(output)))
-        value=None
+        value = None
         return value, action_out, action_dist, hx, cx
-    
+
     def evaluate_actions(self, inputs, other_inputs, masks, action):
         value, action_out, action_dist, hx, cx = self.forward_train(inputs, other_inputs)
 
@@ -308,14 +317,10 @@ class Agent(nn.Module):
         return value, action_out, action_dist, hx, cx
 
 
-
-
 class Flatten(nn.Module):
 
     def forward(self, x):
         return x.view(x.size(0), -1)
-
-
 
 
 if __name__ == "__main__":

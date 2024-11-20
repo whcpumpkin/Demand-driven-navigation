@@ -29,7 +29,8 @@ def parse_arguments():
     parser.add_argument('--eval_ckpt', type=int, default=-1, help='path to logs')
     parser.add_argument('--seen_instruction', type=int, default=1, help='path to logs')
     parser.add_argument('--max_step', type=int, default=100, help="max steps in an episode")
-    
+    parser.add_argument('--patch_size', type=int, default=25, help="max episodes")
+
     # contrastive learning args
     parser.add_argument('--mini_batch_size', type=int, default=64, help='mini batch size')
     parser.add_argument('--large_batch_size', type=int, default=128, help='large batch size')
@@ -41,11 +42,11 @@ def parse_arguments():
     parser.add_argument('--contrastive_lr', type=float, default=1e-5)
     parser.add_argument('--attention_layer_num', default=6, type=int)
     parser.add_argument('--attribute_feature_dim', default=512, type=int, help='attribute_feature_dim')
-    
+
     # fusion_model
     parser.add_argument('--fusion_encoder_layer_num', default=6, type=int, help='images input size')
     parser.add_argument('--fusion_decoder_layer_num', default=6, type=int, help='images input size')
-    
+
     args = parser.parse_args()
 
     return args

@@ -4,6 +4,9 @@
 
 This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven Navigation](https://arxiv.org/abs/2309.08138)
 
+## News
+An extended version of DDN, [Multi-Object Demand-driven Navigation](https://sites.google.com/view/moddn) has been received as a poster by NeurIPS2024.
+
 ## TODOs (Under Development):
 - [x] README
 - [x] Instruction Dataset
@@ -13,7 +16,19 @@ This repo is the official implementation of NeurIPS 2023 paper, [Demand-driven N
 - [x] Training
 - [x] Testing
 
-## Warning: I am currently refactoring my code. Although all code committed to the repository has been tested, there may still be some minor issues. More comments will be continuously added to the code to improve its readability. Feel free to ask any questions.
+## Graphic Memory Optimization
+update on 2024.11.21:
+Someone in issue mentioned if it is possible to optimize the graphics memory consumption making it possible to train with 24G of graphics memory. I have made some optimizations to the code, please follow the instructions below.
+WARNING: For some personal reasons, I did not try to run this code, just made similar migration changes from my other projects. But I can provide an explanation of the code.
+```
+python main.py --epoch=30 --mode=train_DDN_Split --patch_size=25  --workers=32 --dataset_mode=train --device=cuda:0
+```
+
+### Some Explanations
+
+In the original `--mode=train_DDN`, I tried to feed the whole trajectory (maybe 100 steps) into an LSTM to predict the action sequence. To reduce memory consumption, I cut the trajectory into small patches, each of which is at most `patch_size`. Then I feed the patches into an LSTM to predict the action sequence one patch by one patch. The `patch_size` is set to 25 in the above command. This may lose some accuracy.
+
+If your GPU memory is not enough, you can try to reduce the `patch_size`.
 
 
 ## Overview
