@@ -12,6 +12,8 @@ An extended version of DDN, [Multi-Object Demand-driven Navigation](https://site
 - [x] Instruction Dataset
 - [x] Trajectory Dataset
 - [x] Pre-generated Dataset
+- [x] Multi-GPU Training
+- [x] Graphic Memory Optimization
 - [x] Utils Code
 - [x] Training
 - [x] Testing
@@ -19,6 +21,7 @@ An extended version of DDN, [Multi-Object Demand-driven Navigation](https://site
 ## Graphic Memory Optimization
 update on 2024.11.21:
 Someone in issue mentioned if it is possible to optimize the graphics memory consumption making it possible to train with 24G of graphics memory. I have made some optimizations to the code, please follow the instructions below.
+
 
 **WARNING**: For some personal reasons, I did not try to run this code, just made similar migration changes from my other projects. But I can provide an explanation of the code.
 ```
@@ -31,6 +34,10 @@ In the original `--mode=train_DDN`, I tried to feed the whole trajectory (maybe 
 
 If your GPU memory is not enough, you can try to reduce the `patch_size`.
 
+## Multi-GPU Training ##
+updata on 2025.1.15
+
+I have provided a torch-based DistributedDataParallel code. Unfortunately, I don't have the time or computing resources to test this at the moment, so if you run into any problems, please feel free to raise them in the issue.
 
 ## Overview
 <img src="demo/NIPS-2023-DDN.gif" align="middle" width="700"/> 
@@ -101,6 +108,12 @@ Then run
 python main.py --epoch=30 --mode=train_DDN  --workers=32 --dataset_mode=train --device=cuda:0
 ```
 
+### Multi-GPU Training  for Navigation Policy###
+
+run
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nnodes=1 --nproc_per_node=4 main.py --epoch=30 --mode=train_DDN_Multi_GPU --workers=32 --dataset_mode=train
+```
 
 ### Testing
 
